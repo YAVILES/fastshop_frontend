@@ -1,4 +1,3 @@
-import 'package:fastshop/src/controllers/auth_controller.dart';
 import 'package:fastshop/src/router/pages.dart';
 import 'package:fastshop/src/utils/storage.dart';
 import 'package:flutter/material.dart';

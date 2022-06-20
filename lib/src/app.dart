@@ -1,7 +1,6 @@
 import 'package:fastshop/src/router/pages.dart';
 import 'package:fastshop/src/ui/layout/auth_layout.dart';
 import 'package:fastshop/src/ui/layout/dashboard_layout.dart';
-import 'package:fastshop/src/ui/pages/home_page.dart';
 import 'package:fastshop/src/utils/storage.dart';
 import 'package:fastshop/src/utils/theme.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'FastShop',
       theme: appThemeData,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
       initialRoute: Routes.initial,
       getPages: AppPages.pages,
       builder: (context, child) {

@@ -42,10 +42,10 @@ class CardLogin extends StatefulWidget {
   const CardLogin({Key? key}) : super(key: key);
 
   @override
-  _CardLoginState createState() => _CardLoginState();
+  CardLoginState createState() => CardLoginState();
 }
 
-class _CardLoginState extends State<CardLogin> {
+class CardLoginState extends State<CardLogin> {
   @override
   Widget build(BuildContext context) {
     final AuthController loginController = Get.put(AuthController());

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class CustomButtonPrimary extends Container {
   final Function function;
   final String text;
+  @override
+  // ignore: overridden_fields
   final Color color;
   final Color textColor;
   final Color splashColor;
