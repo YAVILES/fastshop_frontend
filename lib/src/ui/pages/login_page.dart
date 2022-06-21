@@ -48,7 +48,7 @@ class CardLogin extends StatefulWidget {
 class CardLoginState extends State<CardLogin> {
   @override
   Widget build(BuildContext context) {
-    final AuthController loginController = Get.put(AuthController());
+    final AuthController loginController = Get.find<AuthController>();
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return SingleChildScrollView(

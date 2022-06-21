@@ -55,6 +55,7 @@ class AuthController extends GetxController {
             await Storage.setToken(resp['token'], resp['refresh']);
             loginProvider.onInit();
             user.value = await loginProvider.currentUser();
+            update();
             Get.offAllNamed(Routes.home);
           } else {
             CustomSnackBar.error('Error', '');
