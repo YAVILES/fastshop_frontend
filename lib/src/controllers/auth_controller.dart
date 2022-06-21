@@ -69,4 +69,11 @@ class AuthController extends GetxController {
       }
     }
   }
+
+  logout() {
+    Storage.removetoken();
+    user.value = UserModel();
+    update();
+    Get.offAndToNamed(Routes.login);
+  }
 }
