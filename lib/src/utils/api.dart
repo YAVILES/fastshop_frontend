@@ -1,3 +1,4 @@
+import 'package:fastshop/src/utils/snackbar.dart';
 import 'package:fastshop/src/utils/storage.dart';
 import 'package:get/get.dart';
 
@@ -61,6 +62,14 @@ abstract class API<T> extends GetConnect {
         throw "Server Error pls retry later";
       case 403:
         throw 'Error occurred pls check internet and retry.';
+      case 401:
+        CustomSnackBar.error(message: response.body["detail"]);
+        break;
+      case 404:
+        CustomSnackBar.error(
+          message: 'Error occurred pls check internet and retry',
+        );
+        break;
       default:
         throw 'Error occurred retry';
     }

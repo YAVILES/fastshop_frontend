@@ -1,5 +1,5 @@
 import 'package:fastshop/src/models/user_model.dart';
-import 'package:fastshop/src/providers/login_provider.dart';
+import 'package:fastshop/src/providers/auth_provider.dart';
 import 'package:fastshop/src/utils/snackbar.dart';
 import 'package:fastshop/src/utils/storage.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,7 @@ import '../router/pages.dart';
 enum Status { notLoggedIn, loggedIn, authenticating, loggedOut }
 
 class AuthController extends GetxController {
-  LoginProvider loginProvider = LoginProvider();
+  AuthProvider loginProvider = AuthProvider();
   final GlobalKey<FormState> formLoginKey = GlobalKey<FormState>();
   RxString username = "".obs;
   RxString password = "".obs;
@@ -57,11 +57,9 @@ class AuthController extends GetxController {
             user.value = await loginProvider.currentUser();
             update();
             Get.offAllNamed(Routes.home);
-          } else {
-            CustomSnackBar.error('Error', '');
           }
         } else {
-          CustomSnackBar.error('Error', 'Usuario invalido');
+          CustomSnackBar.error(message: 'Usuario invalido');
         }
         loading.value = false;
       } else {
