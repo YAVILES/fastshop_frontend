@@ -1,3 +1,4 @@
+import 'package:fastshop/src/models/auth_model.dart';
 import 'package:fastshop/src/models/user_model.dart';
 import 'package:fastshop/src/providers/auth_provider.dart';
 import 'package:fastshop/src/utils/snackbar.dart';
@@ -18,7 +19,13 @@ class AuthController extends GetxController {
   bool validateForm() => formLoginKey.currentState!.validate();
   Rx<Status> get loggedInStatus => Status.notLoggedIn.obs;
 
-  Rx<UserModel?> user = UserModel().obs;
+  final Rx<UserModel?> _user = UserModel().obs;
+
+  UserModel? get user => _user.value;
+
+  set user(UserModel? user) {
+    _user.value = user;
+  }
 
   Future<bool> isAuthenticated() async {
     final token = Storage.getToken();
@@ -27,7 +34,7 @@ class AuthController extends GetxController {
     }
     final resp = await loginProvider.currentUser();
     if (resp != null) {
-      user.value = resp;
+      user = resp;
       return true;
     } else {
       return false;
@@ -49,12 +56,12 @@ class AuthController extends GetxController {
           await Storage.setSchema(splitUsername[1]);
           loginProvider.onInit();
           formLoginKey.currentState!.save();
-          final resp = await loginProvider.login(
+          AuthModel? resp = await loginProvider.login(
               {"username": splitUsername[0], "password": password.value});
           if (resp != null) {
-            await Storage.setToken(resp['token'], resp['refresh']);
+            await Storage.setToken(resp.token, resp.refresh);
             loginProvider.onInit();
-            user.value = await loginProvider.currentUser();
+            user = await loginProvider.currentUser();
             update();
             Get.offAllNamed(Routes.home);
           }
@@ -70,7 +77,7 @@ class AuthController extends GetxController {
 
   logout() {
     Storage.removetoken();
-    user.value = UserModel();
+    user = UserModel();
     update();
     Get.offAndToNamed(Routes.login);
   }

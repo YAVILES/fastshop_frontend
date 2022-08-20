@@ -14,17 +14,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    Get.put(AuthController());
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'FastShop',
       theme: appThemeData,
-      initialRoute: Routes.initial,
+      initialRoute: Routes.home,
       getPages: AppPages.pages,
       builder: (context, child) {
         return GetBuilder<AuthController>(builder: (context) {
-          return (Storage.getToken() == null ||
-                  Get.currentRoute == Routes.login)
+          return (Storage.getToken() == null)
               ? AuthLayout(child: child!)
               : Overlay(
                   initialEntries: [
