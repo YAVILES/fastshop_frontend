@@ -1,7 +1,6 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:fastshop/src/controllers/auth_controller.dart';
 import 'package:fastshop/src/router/pages.dart';
-import 'package:fastshop/src/ui/widgets/buttons/custom_button_primary.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

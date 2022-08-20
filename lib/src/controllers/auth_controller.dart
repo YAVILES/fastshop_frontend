@@ -1,5 +1,6 @@
 import 'package:fastshop/src/models/user_model.dart';
 import 'package:fastshop/src/providers/auth_provider.dart';
+import 'package:fastshop/src/utils/api.dart';
 import 'package:fastshop/src/utils/snackbar.dart';
 import 'package:fastshop/src/utils/storage.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +13,22 @@ enum Status { notLoggedIn, loggedIn, authenticating, loggedOut }
 class AuthController extends GetxController {
   AuthProvider loginProvider = AuthProvider();
   final GlobalKey<FormState> formLoginKey = GlobalKey<FormState>();
-  RxString username = "".obs;
-  RxString password = "".obs;
+  final RxString _username = "".obs;
+
+  String get username => _username.value;
+
+  set username(String username) {
+    _username.value = username;
+  }
+
+  final RxString _password = "".obs;
+
+  String get password => _password.value;
+
+  set password(String password) {
+    _password.value = password;
+  }
+
   RxBool loading = false.obs;
   bool validateForm() => formLoginKey.currentState!.validate();
   Rx<Status> get loggedInStatus => Status.notLoggedIn.obs;
@@ -47,13 +62,13 @@ class AuthController extends GetxController {
         var splitUsername = username.split("@");
         if (splitUsername.length > 1) {
           await Storage.setSchema(splitUsername[1]);
-          loginProvider.onInit();
+          API.configureDio(null);
           formLoginKey.currentState!.save();
-          final resp = await loginProvider.login(
-              {"username": splitUsername[0], "password": password.value});
+          final resp = await loginProvider
+              .login({"username": splitUsername[0], "password": password});
           if (resp != null) {
             await Storage.setToken(resp['token'], resp['refresh']);
-            loginProvider.onInit();
+            API.configureDio(null);
             user.value = await loginProvider.currentUser();
             update();
             Get.offAllNamed(Routes.home);
@@ -61,10 +76,8 @@ class AuthController extends GetxController {
         } else {
           CustomSnackBar.error(message: 'Usuario invalido');
         }
-        loading.value = false;
-      } else {
-        loading.value = false;
       }
+      loading.value = false;
     }
   }
 

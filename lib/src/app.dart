@@ -13,7 +13,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    Get.put(AuthController());
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'FastShop',
@@ -21,18 +20,20 @@ class MyApp extends StatelessWidget {
       initialRoute: Routes.initial,
       getPages: AppPages.pages,
       builder: (context, child) {
-        return GetBuilder<AuthController>(builder: (context) {
-          return (Storage.getToken() == null ||
-                  Get.currentRoute == Routes.login)
-              ? AuthLayout(child: child!)
-              : Overlay(
-                  initialEntries: [
-                    OverlayEntry(
-                      builder: (context) => DashBoardLayout(child: child!),
-                    )
-                  ],
-                );
-        });
+        return GetBuilder<AuthController>(
+          builder: (context) {
+            return (Storage.getToken() == null ||
+                    Get.currentRoute == Routes.login)
+                ? AuthLayout(child: child!)
+                : Overlay(
+                    initialEntries: [
+                      OverlayEntry(
+                        builder: (context) => DashBoardLayout(child: child!),
+                      )
+                    ],
+                  );
+          },
+        );
       },
     );
   }
