@@ -22,8 +22,8 @@ class API {
 
     _dio.options.headers = {
       'Authorization': 'Bearer $token',
-      'accept': '*/*',
-      'X-dts-schema': "$schema"
+      'Accept': '*/*',
+      'X-Dts-Schema': "$schema"
     };
 
     if (context != null) {
