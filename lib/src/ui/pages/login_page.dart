@@ -95,12 +95,12 @@ class CardLoginState extends State<CardLogin> {
                       ),
                       const SizedBox(height: 25),
                       CustomTextFormField(
-                        initialValue: loginController.username,
+                        initialValue: loginController.username.value,
                         onChanged: (value) {
-                          loginController.username = value;
+                          loginController.username.value = value;
                         },
                         onSaved: (value) {
-                          loginController.username = value ?? "";
+                          loginController.username.value = value ?? "";
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -113,10 +113,10 @@ class CardLoginState extends State<CardLogin> {
                       CustomTextFormField(
                         obscureText: true,
                         onChanged: (value) {
-                          loginController.password = value;
+                          loginController.password.value = value;
                         },
                         onSaved: (value) {
-                          loginController.password = value ?? "";
+                          loginController.password.value = value ?? "";
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
