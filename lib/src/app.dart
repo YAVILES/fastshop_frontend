@@ -2,7 +2,6 @@ import 'package:fastshop/src/controllers/auth_controller.dart';
 import 'package:fastshop/src/router/pages.dart';
 import 'package:fastshop/src/ui/layout/auth_layout.dart';
 import 'package:fastshop/src/ui/layout/dashboard_layout.dart';
-import 'package:fastshop/src/utils/api.dart';
 import 'package:fastshop/src/utils/storage.dart';
 import 'package:fastshop/src/utils/theme.dart';
 import 'package:flutter/material.dart';
