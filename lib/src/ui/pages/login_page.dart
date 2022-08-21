@@ -1,7 +1,5 @@
 import 'package:fastshop/src/controllers/auth_controller.dart';
-import 'package:fastshop/src/ui/widgets/buttons/custom_button_primary.dart';
 import 'package:fastshop/src/ui/widgets/progress_indicators/custom_progress_indicator.dart';
-import 'package:fastshop/src/ui/widgets/textformfields/textform_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -136,8 +134,8 @@ class CardLoginState extends State<CardLogin> {
                       const SizedBox(height: 25),
                       Obx(() {
                         return loginController.loading.isFalse
-                            ? CustomButtonPrimary(
-                                text: "Iniciar",
+                            ? ElevatedButton(
+                                child: const Text("Iniciar"),
                                 onPressed: () => loginController.doLogin(),
                               )
                             : const CustomProgressIndicator();
