@@ -66,7 +66,7 @@ class CardLoginState extends State<CardLogin> {
                   top: 240,
                   bottom: 20,
                 ),
-                elevation: 3,
+                // elevation: 3,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 35,
@@ -88,13 +88,17 @@ class CardLoginState extends State<CardLogin> {
                       ),
                       const SizedBox(height: 5),
                       const Text(
-                        "Inicie sesión en su cuenta para continuar",
+                        "Inicia sesión con tu cuenta para continuar",
                         style: TextStyle(
                           fontSize: 14,
                         ),
                       ),
                       const SizedBox(height: 25),
-                      CustomTextFormField(
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          hintText: 'Usuario',
+                          labelText: 'Usuario',
+                        ),
                         initialValue: loginController.username.value,
                         onChanged: (value) {
                           loginController.username.value = value;
@@ -109,8 +113,12 @@ class CardLoginState extends State<CardLogin> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 25),
-                      CustomTextFormField(
+                      const SizedBox(height: 10),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          hintText: 'Contraseña',
+                          labelText: 'Contraseña',
+                        ),
                         obscureText: true,
                         onChanged: (value) {
                           loginController.password.value = value;
@@ -136,9 +144,27 @@ class CardLoginState extends State<CardLogin> {
                       }),
                       const SizedBox(height: 15),
                       TextButton(
-                        child: const Text("¿Se te olvidó la contraseña?"),
+                        child: const Text(
+                          "¿Se te olvidó la contraseña?",
+                        ),
                         onPressed: () {},
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Deseas Afiliarte?',
+                            style: TextStyle(fontSize: 13),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              'Registrate',
+                              style: TextStyle(fontSize: 13),
+                            ),
+                          )
+                        ],
+                      )
                     ],
                   ),
                 ),
