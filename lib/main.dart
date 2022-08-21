@@ -4,6 +4,8 @@ import 'package:fastshop/src/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'src/utils/api.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Storage.configureStorage();

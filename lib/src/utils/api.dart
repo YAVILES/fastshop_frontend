@@ -5,10 +5,6 @@ import 'package:get/get.dart';
 abstract class API extends GetConnect {
   static const String baseURL = "http://127.0.0.1:8000/api";
 
-  API() {
-    onInit();
-  }
-
   @override
   void onInit() {
     httpClient.baseUrl = baseURL;

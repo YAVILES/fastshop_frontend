@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomButtonPrimary extends Container {
-  final Function function;
+  final Function onPressed;
   final String text;
   @override
   // ignore: overridden_fields
@@ -12,7 +12,7 @@ class CustomButtonPrimary extends Container {
 
   CustomButtonPrimary({
     Key? key,
-    required this.function,
+    required this.onPressed,
     required this.text,
     this.splashColor = Colors.blueGrey,
     this.fontSize = 16,
@@ -24,7 +24,7 @@ class CustomButtonPrimary extends Container {
   Widget build(BuildContext context) {
     return MaterialButton(
       splashColor: splashColor,
-      onPressed: () => function(),
+      onPressed: () => onPressed(),
       color: color,
       child: Text(
         text,

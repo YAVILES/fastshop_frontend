@@ -7,7 +7,7 @@ class AuthGuard extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
     var token = Storage.getToken();
-    if (token == null) {
+    if (token == null && route != Routes.initial) {
       return const RouteSettings(name: Routes.login);
     }
     if (route == Routes.login) {

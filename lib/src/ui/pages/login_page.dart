@@ -130,7 +130,7 @@ class CardLoginState extends State<CardLogin> {
                         return loginController.loading.isFalse
                             ? CustomButtonPrimary(
                                 text: "Iniciar",
-                                function: () => loginController.doLogin(),
+                                onPressed: () => loginController.doLogin(),
                               )
                             : const CustomProgressIndicator();
                       }),

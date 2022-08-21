@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'FastShop',
       theme: appThemeData,
-      initialRoute: Routes.home,
+      initialRoute: Routes.initial,
       getPages: AppPages.pages,
       builder: (context, child) {
         return GetBuilder<AuthController>(builder: (context) {

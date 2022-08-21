@@ -2,7 +2,6 @@ import 'package:fastshop/src/middlewares/auth_guard.dart';
 import 'package:fastshop/src/ui/pages/home_page.dart';
 import 'package:fastshop/src/ui/pages/login_page.dart';
 import 'package:fastshop/src/ui/widgets/splash_view.dart';
-import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 part './routes.dart';
 

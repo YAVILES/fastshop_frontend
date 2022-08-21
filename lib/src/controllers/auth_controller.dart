@@ -11,6 +11,12 @@ import '../router/pages.dart';
 enum Status { notLoggedIn, loggedIn, authenticating, loggedOut }
 
 class AuthController extends GetxController {
+  @override
+  void onReady() {
+    isAuthenticated();
+    super.onReady();
+  }
+
   AuthProvider loginProvider = AuthProvider();
   final GlobalKey<FormState> formLoginKey = GlobalKey<FormState>();
   RxString username = "".obs;
@@ -32,6 +38,7 @@ class AuthController extends GetxController {
     if (token == null) {
       return false;
     }
+    loginProvider.onInit();
     final resp = await loginProvider.currentUser();
     if (resp != null) {
       user = resp;
@@ -39,10 +46,6 @@ class AuthController extends GetxController {
     } else {
       return false;
     }
-  }
-
-  AuthController() {
-    isAuthenticated();
   }
 
   doLogin() async {
