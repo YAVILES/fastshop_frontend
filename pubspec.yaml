@@ -38,6 +38,10 @@ dependencies:
   get_storage: ^2.0.3
   convex_bottom_bar: ^3.0.0
   dio: ^4.0.6
+  intl: ^0.17.0
+  responsive_table: ^0.2.0+2
+  file_saver: ^0.1.1
+  permission_handler: ^10.0.0
 
 dev_dependencies:
   flutter_test:

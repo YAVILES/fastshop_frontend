@@ -38,7 +38,7 @@ class AuthController extends GetxController {
     if (token == null) {
       return false;
     }
-    loginProvider.onInit();
+    // loginProvider.onInit();
     final resp = await loginProvider.currentUser();
     if (resp != null) {
       user = resp;
@@ -57,13 +57,13 @@ class AuthController extends GetxController {
         var splitUsername = username.split("@");
         if (splitUsername.length > 1) {
           await Storage.setSchema(splitUsername[1]);
-          loginProvider.onInit();
+          // loginProvider.onInit();
           formLoginKey.currentState!.save();
           AuthModel? resp = await loginProvider.login(
               {"username": splitUsername[0], "password": password.value});
           if (resp != null) {
             await Storage.setToken(resp.token, resp.refresh);
-            loginProvider.onInit();
+            // loginProvider.onInit();
             user = await loginProvider.currentUser();
             update();
             Get.offAllNamed(Routes.home);

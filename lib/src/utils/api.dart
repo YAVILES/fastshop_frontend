@@ -4,7 +4,7 @@ import 'package:fastshop/src/utils/snackbar.dart';
 import 'package:fastshop/src/utils/storage.dart';
 import 'package:get/get.dart';
 
-abstract class API extends GetConnect {
+class API extends GetConnect {
   static const String baseURL = "http://127.0.0.1:8000/api";
 
   @override
