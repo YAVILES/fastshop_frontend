@@ -1,6 +1,7 @@
 import 'package:fastshop/src/models/auth_model.dart';
 import 'package:fastshop/src/models/user_model.dart';
 import 'package:fastshop/src/providers/auth_provider.dart';
+import 'package:fastshop/src/utils/api.dart';
 import 'package:fastshop/src/utils/snackbar.dart';
 import 'package:fastshop/src/utils/storage.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class AuthController extends GetxController {
   }
 
   AuthProvider loginProvider = AuthProvider();
+  API api = GetInstance().find<API>();
   final GlobalKey<FormState> formLoginKey = GlobalKey<FormState>();
   RxString username = "".obs;
   RxString password = "".obs;
@@ -57,13 +59,13 @@ class AuthController extends GetxController {
         var splitUsername = username.split("@");
         if (splitUsername.length > 1) {
           await Storage.setSchema(splitUsername[1]);
-          // loginProvider.onInit();
+          api.onInit();
           formLoginKey.currentState!.save();
           AuthModel? resp = await loginProvider.login(
               {"username": splitUsername[0], "password": password.value});
           if (resp != null) {
             await Storage.setToken(resp.token, resp.refresh);
-            // loginProvider.onInit();
+            api.onInit();
             user = await loginProvider.currentUser();
             update();
             Get.offAllNamed(Routes.home);
@@ -80,7 +82,7 @@ class AuthController extends GetxController {
 
   logout() {
     Storage.removetoken();
-    user = UserModel();
+    user = null;
     update();
     Get.offAndToNamed(Routes.login);
   }
