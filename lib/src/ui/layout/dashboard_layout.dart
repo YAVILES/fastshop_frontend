@@ -22,14 +22,16 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
           title: const Text('FastShop'),
           actions: [
             PopupMenuButton<int>(
+              onSelected: (value) {
+                if (value == 1) {
+                  authController.logout();
+                }
+              },
               itemBuilder: (context) {
                 return [
                   // popupmenu item 1
                   PopupMenuItem(
                     value: 1,
-                    onTap: () {
-                      authController.logout();
-                    },
                     // row has two child icon and text.
                     child: Row(
                       children: const [
@@ -51,12 +53,16 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
           ],
         ),
         backgroundColor: Colors.white,
-        body: widget.child,
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: widget.child,
+        ),
         bottomNavigationBar: ConvexAppBar(
           items: const [
             TabItem(icon: Icons.home, title: 'Inicio'),
             TabItem(icon: Icons.map, title: 'Inventario'),
             TabItem(icon: Icons.add, title: 'Ventas'),
+            TabItem(icon: Icons.add, title: 'Otro'),
           ],
           initialActiveIndex: 0, //optional, default as 0
           onTap: (int i) {

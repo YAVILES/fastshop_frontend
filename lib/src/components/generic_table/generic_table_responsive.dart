@@ -239,82 +239,79 @@ class _GenericTableResponsiveState extends State<GenericTableResponsive> {
         },
         expanded: expanded,
         isLoading: isLoading,
-        footers: widget.onSource == null
-            ? []
-            : [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: const Text("Filas por página:"),
-                ),
-                if (perPages.isNotEmpty)
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: DropdownButton<int>(
-                      value: currentPerPage,
-                      items: perPages
-                          .map((e) => DropdownMenuItem<int>(
-                                value: e,
-                                child: Text("$e"),
-                              ))
-                          .toList(),
-                      onChanged: (dynamic value) {
-                        setState(() {
-                          currentPerPage = value;
-                          currentPerPageFinal = value;
-                          currentPage = 1;
-                          widget.params?["limit"] = value;
-                          refreshData();
-                          // _resetData();
-                        });
-                      },
-                      isExpanded: false,
-                    ),
-                  ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Text("$currentPage - $currentPerPageFinal de $total"),
-                ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    size: 16,
-                  ),
-                  onPressed: previos == null
-                      ? null
-                      : () {
-                          var nextSet = currentPage - currentPerPage!;
-                          setState(() {
-                            currentPage = nextSet > 1 ? nextSet : 1;
-                            currentPerPageFinal = nextSet > 1
-                                ? (currentPerPageFinal! - currentPerPage!)
-                                : currentPerPage;
-                            refreshData(url: previos);
-                            // _resetData(start: _currentPage - 1);
-                          });
-                        },
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.arrow_forward_ios, size: 16),
-                  onPressed: next == null
-                      ? null
-                      : () {
-                          var nextSet = currentPage + currentPerPage!;
+        footers: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: const Text("Filas por página:"),
+          ),
+          if (perPages.isNotEmpty)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: DropdownButton<int>(
+                value: currentPerPage,
+                items: perPages
+                    .map((e) => DropdownMenuItem<int>(
+                          value: e,
+                          child: Text("$e"),
+                        ))
+                    .toList(),
+                onChanged: (dynamic value) {
+                  setState(() {
+                    currentPerPage = value;
+                    currentPerPageFinal = value;
+                    currentPage = 1;
+                    widget.params?["limit"] = value;
+                    refreshData();
+                    // _resetData();
+                  });
+                },
+                isExpanded: false,
+              ),
+            ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text("$currentPage - $currentPerPageFinal de $total"),
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              size: 16,
+            ),
+            onPressed: previos == null
+                ? null
+                : () {
+                    var nextSet = currentPage - currentPerPage!;
+                    setState(() {
+                      currentPage = nextSet > 1 ? nextSet : 1;
+                      currentPerPageFinal = nextSet > 1
+                          ? (currentPerPageFinal! - currentPerPage!)
+                          : currentPerPage;
+                      refreshData(url: previos);
+                      // _resetData(start: _currentPage - 1);
+                    });
+                  },
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+          ),
+          IconButton(
+            icon: const Icon(Icons.arrow_forward_ios, size: 16),
+            onPressed: next == null
+                ? null
+                : () {
+                    var nextSet = currentPage + currentPerPage!;
 
-                          setState(() {
-                            currentPage = nextSet < total
-                                ? nextSet
-                                : total - currentPerPage!;
-                            currentPerPageFinal = nextSet < total
-                                ? (currentPerPageFinal! + currentPerPage!)
-                                : total - currentPerPageFinal!;
-                            refreshData(url: next);
-                            // _resetData(start: _nextSet - 1);
-                          });
-                        },
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                )
-              ],
+                    setState(() {
+                      currentPage =
+                          nextSet < total ? nextSet : total - currentPerPage!;
+                      currentPerPageFinal = nextSet < total
+                          ? (currentPerPageFinal! + currentPerPage!)
+                          : total - currentPerPageFinal!;
+                      refreshData(url: next);
+                      // _resetData(start: _nextSet - 1);
+                    });
+                  },
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+          )
+        ],
       ),
     );
   }

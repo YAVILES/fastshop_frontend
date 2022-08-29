@@ -1,6 +1,7 @@
 import 'package:fastshop/src/middlewares/auth_guard.dart';
 import 'package:fastshop/src/ui/pages/home_page.dart';
-import 'package:fastshop/src/ui/pages/inventory/category_page.dart';
+import 'package:fastshop/src/ui/pages/inventory/category/category_edit_page.dart';
+import 'package:fastshop/src/ui/pages/inventory/category/category_page.dart';
 import 'package:fastshop/src/ui/pages/inventory/inventory_page.dart';
 import 'package:fastshop/src/ui/pages/login_page.dart';
 import 'package:fastshop/src/ui/widgets/splash_view.dart';
@@ -27,6 +28,10 @@ abstract class AppPages {
             GetPage(
               name: Routes.category,
               page: () => const CategoryPage(),
+            ),
+            GetPage(
+              name: Routes.categoryEdit,
+              page: () => const CategoryEditPage(),
             ),
           ],
         ),

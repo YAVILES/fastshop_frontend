@@ -82,7 +82,7 @@ class AuthController extends GetxController {
 
   logout() {
     Storage.removetoken();
-    user = null;
+    user = UserModel();
     update();
     Get.offAndToNamed(Routes.login);
   }
