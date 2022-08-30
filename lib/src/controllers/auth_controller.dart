@@ -22,6 +22,16 @@ class AuthController extends GetxController {
   RxString username = "".obs;
   RxString password = "".obs;
   RxBool loading = false.obs;
+  RxBool _backButtonActive = true.obs;
+  RxBool showMethod = false.obs;
+
+  RxBool get backButtonActive => _backButtonActive;
+
+  set backButtonActive(RxBool backButtonActive) {
+    _backButtonActive = backButtonActive;
+    update();
+  }
+
   bool validateForm() => formLoginKey.currentState!.validate();
   Rx<Status> get loggedInStatus => Status.notLoggedIn.obs;
 

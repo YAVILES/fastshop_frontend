@@ -1,6 +1,7 @@
 import 'package:fastshop/src/middlewares/auth_guard.dart';
 import 'package:fastshop/src/ui/pages/home_page.dart';
 import 'package:fastshop/src/ui/pages/login_page.dart';
+import 'package:fastshop/src/ui/pages/recover.dart';
 import 'package:fastshop/src/ui/widgets/splash_view.dart';
 import 'package:get/get.dart';
 part './routes.dart';
@@ -36,5 +37,10 @@ abstract class AppPages {
       page: () => const LoginPage(),
       transition: Transition.zoom,
     ),
+    GetPage(
+      name: Routes.recoverpass,
+      page: () => const RecoverPage(),
+      transition: Transition.zoom,
+    )
   ];
 }

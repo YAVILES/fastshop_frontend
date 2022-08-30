@@ -20,9 +20,11 @@ class MyApp extends StatelessWidget {
       initialRoute: Routes.initial,
       getPages: AppPages.pages,
       builder: (context, child) {
+        bool backButtonActive =
+            Get.find<AuthController>().backButtonActive.value;
         return GetBuilder<AuthController>(builder: (context) {
           return (Storage.getToken() == null)
-              ? AuthLayout(child: child!)
+              ? AuthLayout(child: child!, backButtonActive: backButtonActive)
               : Overlay(
                   initialEntries: [
                     OverlayEntry(

@@ -145,7 +145,10 @@ class CardLoginState extends State<CardLogin> {
                         child: const Text(
                           "¿Se te olvidó la contraseña?",
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          loginController.backButtonActive.value = false;
+                          Get.offAllNamed("/recover");
+                        },
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
