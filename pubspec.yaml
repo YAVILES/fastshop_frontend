@@ -1,5 +1,5 @@
 name: fastshop
-description: A new Flutter project.
+description: FastShop.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -41,6 +41,10 @@ dependencies:
   animator: ^3.2.0
   font_awesome_flutter: ^10.1.0
   google_fonts: ^3.0.1
+  intl: ^0.17.0
+  responsive_table: ^0.2.0+2
+  file_saver: ^0.1.1
+  permission_handler: ^10.0.0
 
 dev_dependencies:
   flutter_test:

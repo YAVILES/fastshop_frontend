@@ -1,5 +1,8 @@
 import 'package:fastshop/src/middlewares/auth_guard.dart';
 import 'package:fastshop/src/ui/pages/home_page.dart';
+import 'package:fastshop/src/ui/pages/inventory/category/category_edit_page.dart';
+import 'package:fastshop/src/ui/pages/inventory/category/category_page.dart';
+import 'package:fastshop/src/ui/pages/inventory/inventory_page.dart';
 import 'package:fastshop/src/ui/pages/login_page.dart';
 import 'package:fastshop/src/ui/pages/recover.dart';
 import 'package:fastshop/src/ui/widgets/splash_view.dart';
@@ -18,17 +21,24 @@ abstract class AppPages {
         GetPage(
           name: Routes.home,
           page: () => const MyHomePage(title: "Home"),
-          transition: Transition.zoom,
         ),
         GetPage(
           name: Routes.inventory,
-          page: () => const MyHomePage(title: "Inventario"),
-          transition: Transition.zoom,
+          page: () => const InventoryPage(),
+          children: [
+            GetPage(
+              name: Routes.category,
+              page: () => const CategoryPage(),
+            ),
+            GetPage(
+              name: Routes.categoryEdit,
+              page: () => const CategoryEditPage(),
+            ),
+          ],
         ),
         GetPage(
           name: Routes.sales,
           page: () => const MyHomePage(title: "Ventas"),
-          transition: Transition.zoom,
         ),
       ],
     ),
