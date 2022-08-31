@@ -24,11 +24,11 @@ class _AuthLayoutState extends State<AuthLayout> {
         appBar: AppBar(
             backgroundColor: Colors.white,
             elevation: 0,
-            iconTheme: IconThemeData(color: Colors.black),
+            iconTheme: const IconThemeData(color: Colors.black),
             leading: widget.backButtonActive == true
                 ? const SizedBox()
                 : IconButton(
-                    icon: Icon(Icons.arrow_back),
+                    icon: const Icon(Icons.arrow_back),
                     onPressed: () {
                       Get.offAllNamed(Routes.login);
                     },
