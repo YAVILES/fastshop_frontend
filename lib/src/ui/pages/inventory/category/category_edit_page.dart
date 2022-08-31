@@ -2,6 +2,7 @@ import 'package:fastshop/src/controllers/category_controller.dart';
 import 'package:fastshop/src/ui/widgets/progress_indicators/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:file_picker/file_picker.dart';
 
 class CategoryEditPage extends StatefulWidget {
   const CategoryEditPage({Key? key}) : super(key: key);
@@ -23,31 +24,32 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
             Stack(
               alignment: AlignmentDirectional.bottomCenter,
               children: [
-                Image.network(
-                  fit: BoxFit.contain,
-                  alignment: Alignment.center,
-                  categoryController.category.value?.image ?? "",
-                  loadingBuilder: (context, child, loadingProgress) =>
-                      Image.asset('images/loading.gif'),
-                  errorBuilder: (context, obj, stackTrace) =>
-                      Image.asset('images/base_image.png'),
+                Obx(
+                  () => (categoryController.category.value?.image != null)
+                      ? Image.memory(categoryController.category.value!.image!)
+                      : Image.network(
+                          fit: BoxFit.contain,
+                          alignment: Alignment.center,
+                          categoryController.category.value?.imageDisplay ?? "",
+                          loadingBuilder: (context, child, loadingProgress) =>
+                              Image.asset('images/loading.gif'),
+                          errorBuilder: (context, obj, stackTrace) =>
+                              Image.asset('images/base_image.png'),
+                        ),
                 ),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: FloatingActionButton(
                     onPressed: () async {
-                      // FilePickerResult? result =
-                      //     await FilePicker.platform.pickFiles(
-                      //   // allowedExtensions: ['jpg'],
-                      //   allowMultiple: false,
-                      // );
+                      FilePickerResult? result =
+                          await FilePicker.platform.pickFiles();
 
-                      // if (result != null) {
-                      //   setState(
-                      //       () => categoryController.category.value?.image = result.files.first);
-                      // } else {
-                      //   // Adviser canceled the picker
-                      // }
+                      if (result != null) {
+                        categoryController.category.value?.image =
+                            result.files.first.bytes;
+                      } else {
+                        // Adviser canceled the picker
+                      }
                     },
                     child: const Icon(Icons.upload),
                   ),

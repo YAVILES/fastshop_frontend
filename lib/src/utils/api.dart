@@ -22,13 +22,13 @@ class API extends GetConnect {
     };
 
     httpClient.addRequestModifier<dynamic>((request) {
-      request.headers.addAll(headers);
+      // request.headers(headers);
       return request;
     });
 
-    // httpClient.addResponseModifier<dynamic>((request, response) {
-    //   print(response.bodyString);
-    // });
+    httpClient.addResponseModifier<dynamic>((request, response) {
+      return response;
+    });
 
     httpClient.addAuthenticator<dynamic>((request) async {
       // Set the header
