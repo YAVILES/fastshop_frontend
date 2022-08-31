@@ -1,9 +1,6 @@
 import 'package:fastshop/src/controllers/auth_controller.dart';
-import 'package:fastshop/src/ui/widgets/progress_indicators/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:animator/animator.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 final inputBorder = OutlineInputBorder(
@@ -12,7 +9,7 @@ final inputBorder = OutlineInputBorder(
 );
 
 final inputDecoration = InputDecoration(
-  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+  contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
   border: inputBorder,
   focusedBorder: inputBorder,
   enabledBorder: inputBorder,
@@ -28,11 +25,13 @@ class RecoverPage extends StatefulWidget {
 class _RecoverPageState extends State<RecoverPage> {
   @override
   Widget build(BuildContext context) {
-    return First();
+    return const First();
   }
 }
 
 class First extends StatefulWidget {
+  const First({Key? key}) : super(key: key);
+
   @override
   State<First> createState() => _FirstState();
 }
@@ -49,19 +48,19 @@ class _FirstState extends State<First> {
   Widget build(BuildContext context) {
     final AuthController loginController = Get.find<AuthController>();
 
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
     return Column(
       children: [
         welcomeText(loginController),
         Obx(() => !loginController.showMethod.value
             ? fieldVerify(loginController)
-            : SizedBox()),
+            : const SizedBox()),
         Obx(() => loginController.showMethod.value
             ? methodCardSms(loginController)
-            : SizedBox()),
+            : const SizedBox()),
         Obx(() => loginController.showMethod.value
             ? methodCardEmail(loginController)
-            : SizedBox())
+            : const SizedBox())
       ],
     );
   }
@@ -72,8 +71,8 @@ Widget welcomeText(loginController) {
     children: [
       Container(
         height: 250,
-        padding: EdgeInsets.all(35),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(35),
+        decoration: const BoxDecoration(
           shape: BoxShape.circle,
         ),
         child: Image.asset(
@@ -118,7 +117,7 @@ Widget welcomeText(loginController) {
                 ],
               ),
             )
-          : SizedBox())
+          : const SizedBox())
     ],
   );
 }
@@ -128,7 +127,7 @@ Widget fieldVerify(loginController) {
     margin: const EdgeInsets.only(top: 25),
     child: SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 1, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 20),
         child: Column(
           children: [
             Row(
@@ -155,10 +154,10 @@ Widget fieldVerify(loginController) {
                             BoxConstraints(maxWidth: 140, maxHeight: 60)),
                     obscureText: false,
                     onChanged: (value) {
-                      loginController.field_verify.value = value;
+                      loginController.fieldVerify.value = value;
                     },
                     onSaved: (value) {
-                      loginController.field_verify.value = value;
+                      loginController.fieldVerify.value = value;
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -168,10 +167,12 @@ Widget fieldVerify(loginController) {
                     },
                   ),
                 ),
-                Text("@",
-                    style: TextStyle(
-                      fontSize: 30,
-                    )),
+                const Text(
+                  "@",
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: TextFormField(
@@ -203,9 +204,9 @@ Widget fieldVerify(loginController) {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0)),
                 padding: const EdgeInsets.all(10.0),
-                minimumSize: Size(150, 50),
+                minimumSize: const Size(150, 50),
               ),
-              child: Text(
+              child: const Text(
                 "Continuar",
                 style: TextStyle(
                   fontSize: 16.0,
@@ -225,14 +226,14 @@ Widget fieldVerify(loginController) {
 Widget methodCardSms(loginController) {
   return Card(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-    margin: EdgeInsets.all(15),
+    margin: const EdgeInsets.all(15),
     elevation: 10,
     child: Column(
       children: [
         ListTile(
-          onTap: () => {Get.to(Second())},
-          contentPadding: EdgeInsets.fromLTRB(15, 10, 25, 0),
-          title: Text('Via SMS'),
+          onTap: () => {Get.to(const Second())},
+          contentPadding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
+          title: const Text('Via SMS'),
           subtitle: Obx(() => Text(loginController.phone.value)),
           leading: Image.asset(
             "assets/images/smartphone.png",
@@ -247,14 +248,14 @@ Widget methodCardSms(loginController) {
 Widget methodCardEmail(loginController) {
   return Card(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-    margin: EdgeInsets.all(15),
+    margin: const EdgeInsets.all(15),
     elevation: 10,
     child: Column(
       children: [
         ListTile(
           onTap: () => loginController.sendEmail(),
-          contentPadding: EdgeInsets.fromLTRB(15, 10, 25, 0),
-          title: Text('Via Correo'),
+          contentPadding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
+          title: const Text('Via Correo'),
           subtitle: Obx(() => Text(loginController.email.value)),
           leading: Image.asset(
             "assets/images/letter.png",
@@ -269,6 +270,8 @@ Widget methodCardEmail(loginController) {
 }
 
 class Second extends StatelessWidget {
+  const Second({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -281,22 +284,22 @@ class Second extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 30.0),
-            Text(
+            const Text(
               "Por favor ingresa el codigo de 4 digitos",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18.0),
             ),
             const SizedBox(height: 20.0),
-            OTPFields(),
+            const OTPFields(),
             const SizedBox(height: 20.0),
-            Text(
+            const Text(
               "Expira en 02:22",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16.0, color: Colors.grey),
             ),
             const SizedBox(height: 10.0),
             TextButton(
-              child: Text(
+              child: const Text(
                 "Reenviar",
                 style: TextStyle(
                   fontSize: 18.0,
@@ -311,16 +314,16 @@ class Second extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0)),
                 padding: const EdgeInsets.all(16.0),
-                minimumSize: Size(150, 50),
+                minimumSize: const Size(150, 50),
               ),
-              child: Text(
+              child: const Text(
                 "Confirmar",
                 style: TextStyle(
                   fontSize: 16.0,
                 ),
               ),
               onPressed: () {
-                Get.to(Third());
+                Get.to(const Third());
               },
             )
           ],
@@ -331,6 +334,8 @@ class Second extends StatelessWidget {
 }
 
 class Third extends StatelessWidget {
+  const Third({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -338,7 +343,7 @@ class Third extends StatelessWidget {
         margin: const EdgeInsets.only(top: 25),
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 1, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 20),
             child: Column(
               children: [
                 Row(
@@ -403,16 +408,16 @@ class Third extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     padding: const EdgeInsets.all(10.0),
-                    minimumSize: Size(150, 50),
+                    minimumSize: const Size(150, 50),
                   ),
-                  child: Text(
+                  child: const Text(
                     "Continuar",
                     style: TextStyle(
                       fontSize: 16.0,
                     ),
                   ),
                   onPressed: () {
-                    Get.to(Four());
+                    Get.to(const Four());
                   },
                 )
               ],
@@ -424,9 +429,18 @@ class Third extends StatelessWidget {
   }
 }
 
-class Four extends StatelessWidget {
+class Four extends StatefulWidget {
+  const Four({Key? key}) : super(key: key);
+
+  @override
+  State<Four> createState() => _FourState();
+}
+
+class _FourState extends State<Four> {
   double screenWidth = 600;
+
   double screenHeight = 400;
+
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
@@ -439,8 +453,8 @@ class Four extends StatelessWidget {
         children: [
           Container(
             height: 250,
-            padding: EdgeInsets.all(35),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.all(35),
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
             ),
             child: Image.asset(
@@ -448,8 +462,8 @@ class Four extends StatelessWidget {
               fit: BoxFit.contain,
             ),
           ),
-          SizedBox(height: 10),
-          Text(
+          const SizedBox(height: 10),
+          const Text(
             "Operaciòn Exitosa!",
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -458,7 +472,7 @@ class Four extends StatelessWidget {
             ),
           ),
           SizedBox(height: screenHeight * 0.01),
-          Text(
+          const Text(
             "Tu contraseña ha sido cambiada exitosamente",
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -468,7 +482,7 @@ class Four extends StatelessWidget {
             ),
           ),
           SizedBox(height: screenHeight * 0.05),
-          Text(
+          const Text(
             "Vuelve al inicio de sessiòn e ingresa al sistema con tu nueva contraseña",
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -483,9 +497,9 @@ class Four extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               padding: const EdgeInsets.all(10.0),
-              minimumSize: Size(150, 50),
+              minimumSize: const Size(150, 50),
             ),
-            child: Text(
+            child: const Text(
               "Login",
               style: TextStyle(
                 fontSize: 16.0,
@@ -507,6 +521,7 @@ class OTPFields extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _OTPFieldsState createState() => _OTPFieldsState();
 }
 
@@ -514,7 +529,7 @@ class _OTPFieldsState extends State<OTPFields> {
   FocusNode? pin2FN;
   FocusNode? pin3FN;
   FocusNode? pin4FN;
-  final pinStyle = TextStyle(fontSize: 32, fontWeight: FontWeight.bold);
+  final pinStyle = const TextStyle(fontSize: 32, fontWeight: FontWeight.bold);
 
   @override
   void initState() {
