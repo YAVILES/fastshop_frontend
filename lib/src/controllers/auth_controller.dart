@@ -19,7 +19,6 @@ class AuthController extends GetxController {
   }
 
   AuthProvider loginProvider = AuthProvider();
-  API api = GetInstance().find<API>();
   final GlobalKey<FormState> formLoginKey = GlobalKey<FormState>();
   RxString username = "".obs;
   RxString password = "".obs;
@@ -74,13 +73,13 @@ class AuthController extends GetxController {
         var splitUsername = username.split("@");
         if (splitUsername.length > 1) {
           await Storage.setSchema(splitUsername[1]);
-          api.onInit();
+          API.configureDio(null);
           formLoginKey.currentState!.save();
           AuthModel? resp = await loginProvider.login(
               {"username": splitUsername[0], "password": password.value});
           if (resp != null) {
             await Storage.setToken(resp.token, resp.refresh);
-            api.onInit();
+            API.configureDio(null);
             user = await loginProvider.currentUser();
             update();
             Get.offAllNamed(Routes.home);
@@ -103,13 +102,13 @@ class AuthController extends GetxController {
   }
 
   userVerify() async {
-    final resp = await loginProvider
+    Map<String, dynamic>? resp = await loginProvider
         .userVerify({"field": field_verify.value, "schema": schema.value});
     print(resp);
     if (resp != null) {
       showMethod.value = true;
       email.value = resp['email'];
-      phone.value = resp['phone'];
+      phone.value = resp['phone'] ?? "";
 
       return resp;
     } else {
@@ -118,14 +117,14 @@ class AuthController extends GetxController {
   }
 
   sendEmail() async {
-    final resp = await loginProvider.sendEmail({
+    Map<String, dynamic>? resp = await loginProvider.sendEmail({
       "field": field_verify.value,
       "schema": schema.value,
       "email": email.value
     });
     if (resp != null) {
       print(resp);
-      codeSecurity.value = resp;
+      codeSecurity.value = resp['code'];
       return resp;
     } else {
       CustomSnackBar.error(message: 'Usuario invalido');
