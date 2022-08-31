@@ -22,7 +22,7 @@ class API extends GetConnect {
     };
 
     httpClient.addRequestModifier<dynamic>((request) {
-      request.headers.addAll(headers);
+      //request.headers.addAll(headers);
       return request;
     });
 
@@ -32,8 +32,12 @@ class API extends GetConnect {
 
     httpClient.addAuthenticator<dynamic>((request) async {
       // Set the header
-      request.headers.addAll(headers);
+      //request.headers.addAll(headers);
       return request;
+    });
+
+    httpClient.addResponseModifier<dynamic>((request, response) {
+      return response;
     });
 
     super.onInit();

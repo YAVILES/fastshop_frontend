@@ -23,6 +23,11 @@ class AuthController extends GetxController {
   final GlobalKey<FormState> formLoginKey = GlobalKey<FormState>();
   RxString username = "".obs;
   RxString password = "".obs;
+  RxString field_verify = "".obs;
+  RxString schema = "".obs;
+  RxString email = "".obs;
+  RxString phone = "".obs;
+  RxString codeSecurity = "".obs;
   RxBool loading = false.obs;
   RxBool _backButtonActive = true.obs;
   RxBool showMethod = false.obs;
@@ -60,7 +65,7 @@ class AuthController extends GetxController {
     }
   }
 
-  doLogin() async {
+  Future<void> doLogin() async {
     {
       if (loading.isFalse) {
         loading.value = true;
@@ -95,5 +100,35 @@ class AuthController extends GetxController {
     user = UserModel();
     update();
     Get.offAndToNamed(Routes.login);
+  }
+
+  userVerify() async {
+    final resp = await loginProvider
+        .userVerify({"field": field_verify.value, "schema": schema.value});
+    print(resp);
+    if (resp != null) {
+      showMethod.value = true;
+      email.value = resp['email'];
+      phone.value = resp['phone'];
+
+      return resp;
+    } else {
+      CustomSnackBar.error(message: 'Usuario invalido');
+    }
+  }
+
+  sendEmail() async {
+    final resp = await loginProvider.sendEmail({
+      "field": field_verify.value,
+      "schema": schema.value,
+      "email": email.value
+    });
+    if (resp != null) {
+      print(resp);
+      codeSecurity.value = resp;
+      return resp;
+    } else {
+      CustomSnackBar.error(message: 'Usuario invalido');
+    }
   }
 }

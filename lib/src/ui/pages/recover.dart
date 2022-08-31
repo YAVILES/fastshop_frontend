@@ -52,19 +52,22 @@ class _FirstState extends State<First> {
     final size = MediaQuery.of(context).size;
     return Column(
       children: [
-        welcomeText(),
-        Obx(() =>
-            !loginController.showMethod.value ? fieldVerify() : SizedBox()),
-        Obx(() =>
-            loginController.showMethod.value ? methodCardSms() : SizedBox()),
-        Obx(() =>
-            loginController.showMethod.value ? methodCardEmail() : SizedBox())
+        welcomeText(loginController),
+        Obx(() => !loginController.showMethod.value
+            ? fieldVerify(loginController)
+            : SizedBox()),
+        Obx(() => loginController.showMethod.value
+            ? methodCardSms(loginController)
+            : SizedBox()),
+        Obx(() => loginController.showMethod.value
+            ? methodCardEmail(loginController)
+            : SizedBox())
       ],
     );
   }
 }
 
-Widget welcomeText() {
+Widget welcomeText(loginController) {
   return Column(
     children: [
       Container(
@@ -78,47 +81,49 @@ Widget welcomeText() {
           fit: BoxFit.contain,
         ),
       ),
-      Text.rich(
-        TextSpan(
-          style: GoogleFonts.inter(
-            fontSize: 18.0,
-            color: Colors.black,
-            height: 1.0,
-          ),
-          children: const [
-            TextSpan(
-              text: 'Selecciona un',
-            ),
-            TextSpan(
-              text: ', ',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
+      Obx(() => loginController.showMethod.value
+          ? Text.rich(
+              TextSpan(
+                style: GoogleFonts.inter(
+                  fontSize: 18.0,
+                  color: Colors.black,
+                  height: 1.0,
+                ),
+                children: const [
+                  TextSpan(
+                    text: 'Selecciona un',
+                  ),
+                  TextSpan(
+                    text: ', ',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Metodo',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  TextSpan(
+                    text: ' ',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'para continuar!',
+                  ),
+                ],
               ),
-            ),
-            TextSpan(
-              text: 'Metodo',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                decoration: TextDecoration.underline,
-              ),
-            ),
-            TextSpan(
-              text: ' ',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            TextSpan(
-              text: 'para continuar!',
-            ),
-          ],
-        ),
-      ),
+            )
+          : SizedBox())
     ],
   );
 }
 
-Widget fieldVerify() {
+Widget fieldVerify(loginController) {
   return Container(
     margin: const EdgeInsets.only(top: 25),
     child: SingleChildScrollView(
@@ -137,25 +142,60 @@ Widget fieldVerify() {
                 ),
               ],
             ),
-            const SizedBox(height: 5),
             const SizedBox(height: 25),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Usuario o Contraseña',
-                  labelText: 'Usuario o Contraseña',
+            Wrap(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                        hintText: 'Usuario',
+                        labelText: 'Usuario',
+                        constraints:
+                            BoxConstraints(maxWidth: 140, maxHeight: 60)),
+                    obscureText: false,
+                    onChanged: (value) {
+                      loginController.field_verify.value = value;
+                    },
+                    onSaved: (value) {
+                      loginController.field_verify.value = value;
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "La Usuario o Contraseña es requerida";
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-                obscureText: true,
-                onChanged: (value) {},
-                onSaved: (value) {},
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "La Usuario o Contraseña es requerida";
-                  }
-                  return null;
-                },
-              ),
+                Text("@",
+                    style: TextStyle(
+                      fontSize: 30,
+                    )),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                        hintText: 'Dominio',
+                        labelText: 'Dominio',
+                        constraints:
+                            BoxConstraints(maxWidth: 140, maxHeight: 60)),
+                    obscureText: false,
+                    onChanged: (value) {
+                      loginController.schema.value = value;
+                    },
+                    onSaved: (value) {
+                      loginController.schema.value = value;
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "La Usuario o Contraseña es requerida";
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 10),
             ElevatedButton(
@@ -172,7 +212,7 @@ Widget fieldVerify() {
                 ),
               ),
               onPressed: () {
-                Get.find<AuthController>().showMethod.value = true;
+                loginController.userVerify();
               },
             )
           ],
@@ -182,7 +222,7 @@ Widget fieldVerify() {
   );
 }
 
-Widget methodCardSms() {
+Widget methodCardSms(loginController) {
   return Card(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     margin: EdgeInsets.all(15),
@@ -193,7 +233,7 @@ Widget methodCardSms() {
           onTap: () => {Get.to(Second())},
           contentPadding: EdgeInsets.fromLTRB(15, 10, 25, 0),
           title: Text('Via SMS'),
-          subtitle: Text('*******4567'),
+          subtitle: Obx(() => Text(loginController.phone.value)),
           leading: Image.asset(
             "assets/images/smartphone.png",
             fit: BoxFit.contain,
@@ -204,7 +244,7 @@ Widget methodCardSms() {
   );
 }
 
-Widget methodCardEmail() {
+Widget methodCardEmail(loginController) {
   return Card(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     margin: EdgeInsets.all(15),
@@ -212,10 +252,10 @@ Widget methodCardEmail() {
     child: Column(
       children: [
         ListTile(
-          onTap: () => {Get.to(Second())},
+          onTap: () => loginController.sendEmail(),
           contentPadding: EdgeInsets.fromLTRB(15, 10, 25, 0),
           title: Text('Via Correo'),
-          subtitle: Text('*******vila@gmail.com'),
+          subtitle: Obx(() => Text(loginController.email.value)),
           leading: Image.asset(
             "assets/images/letter.png",
             fit: BoxFit.contain,
