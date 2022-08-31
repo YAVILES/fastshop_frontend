@@ -22,7 +22,7 @@ class AuthController extends GetxController {
   final GlobalKey<FormState> formLoginKey = GlobalKey<FormState>();
   RxString username = "".obs;
   RxString password = "".obs;
-  RxString field_verify = "".obs;
+  RxString fieldVerify = "".obs;
   RxString schema = "".obs;
   RxString email = "".obs;
   RxString phone = "".obs;
@@ -103,8 +103,8 @@ class AuthController extends GetxController {
 
   userVerify() async {
     Map<String, dynamic>? resp = await loginProvider
-        .userVerify({"field": field_verify.value, "schema": schema.value});
-    print(resp);
+        .userVerify({"field": fieldVerify.value, "schema": schema.value});
+    // print(resp);
     if (resp != null) {
       showMethod.value = true;
       email.value = resp['email'];
@@ -118,12 +118,12 @@ class AuthController extends GetxController {
 
   sendEmail() async {
     Map<String, dynamic>? resp = await loginProvider.sendEmail({
-      "field": field_verify.value,
+      "field": fieldVerify.value,
       "schema": schema.value,
       "email": email.value
     });
     if (resp != null) {
-      print(resp);
+      // print(resp);
       codeSecurity.value = resp['code'];
       return resp;
     } else {
