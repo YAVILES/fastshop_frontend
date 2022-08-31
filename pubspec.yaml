@@ -38,6 +38,9 @@ dependencies:
   get_storage: ^2.0.3
   convex_bottom_bar: ^3.0.0
   dio: ^4.0.6
+  animator: ^3.2.0
+  font_awesome_flutter: ^10.1.0
+  google_fonts: ^3.0.1
   intl: ^0.17.0
   responsive_table: ^0.2.0+2
   file_saver: ^0.1.1

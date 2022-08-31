@@ -19,11 +19,25 @@ class AuthController extends GetxController {
   }
 
   AuthProvider loginProvider = AuthProvider();
-  API api = GetInstance().find<API>();
   final GlobalKey<FormState> formLoginKey = GlobalKey<FormState>();
   RxString username = "".obs;
   RxString password = "".obs;
+  RxString field_verify = "".obs;
+  RxString schema = "".obs;
+  RxString email = "".obs;
+  RxString phone = "".obs;
+  RxString codeSecurity = "".obs;
   RxBool loading = false.obs;
+  RxBool _backButtonActive = true.obs;
+  RxBool showMethod = false.obs;
+
+  RxBool get backButtonActive => _backButtonActive;
+
+  set backButtonActive(RxBool backButtonActive) {
+    _backButtonActive = backButtonActive;
+    update();
+  }
+
   bool validateForm() => formLoginKey.currentState!.validate();
   Rx<Status> get loggedInStatus => Status.notLoggedIn.obs;
 
@@ -50,7 +64,7 @@ class AuthController extends GetxController {
     }
   }
 
-  doLogin() async {
+  Future<void> doLogin() async {
     {
       if (loading.isFalse) {
         loading.value = true;
@@ -59,13 +73,13 @@ class AuthController extends GetxController {
         var splitUsername = username.split("@");
         if (splitUsername.length > 1) {
           await Storage.setSchema(splitUsername[1]);
-          api.onInit();
+          API.configureDio(null);
           formLoginKey.currentState!.save();
           AuthModel? resp = await loginProvider.login(
               {"username": splitUsername[0], "password": password.value});
           if (resp != null) {
             await Storage.setToken(resp.token, resp.refresh);
-            api.onInit();
+            API.configureDio(null);
             user = await loginProvider.currentUser();
             update();
             Get.offAllNamed(Routes.home);
@@ -85,5 +99,35 @@ class AuthController extends GetxController {
     user = UserModel();
     update();
     Get.offAndToNamed(Routes.login);
+  }
+
+  userVerify() async {
+    Map<String, dynamic>? resp = await loginProvider
+        .userVerify({"field": field_verify.value, "schema": schema.value});
+    print(resp);
+    if (resp != null) {
+      showMethod.value = true;
+      email.value = resp['email'];
+      phone.value = resp['phone'] ?? "";
+
+      return resp;
+    } else {
+      CustomSnackBar.error(message: 'Usuario invalido');
+    }
+  }
+
+  sendEmail() async {
+    Map<String, dynamic>? resp = await loginProvider.sendEmail({
+      "field": field_verify.value,
+      "schema": schema.value,
+      "email": email.value
+    });
+    if (resp != null) {
+      print(resp);
+      codeSecurity.value = resp['code'];
+      return resp;
+    } else {
+      CustomSnackBar.error(message: 'Usuario invalido');
+    }
   }
 }

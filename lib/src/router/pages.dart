@@ -4,6 +4,7 @@ import 'package:fastshop/src/ui/pages/inventory/category/category_edit_page.dart
 import 'package:fastshop/src/ui/pages/inventory/category/category_page.dart';
 import 'package:fastshop/src/ui/pages/inventory/inventory_page.dart';
 import 'package:fastshop/src/ui/pages/login_page.dart';
+import 'package:fastshop/src/ui/pages/recover.dart';
 import 'package:fastshop/src/ui/widgets/splash_view.dart';
 import 'package:get/get.dart';
 part './routes.dart';
@@ -46,5 +47,10 @@ abstract class AppPages {
       page: () => const LoginPage(),
       transition: Transition.zoom,
     ),
+    GetPage(
+      name: Routes.recoverpass,
+      page: () => const RecoverPage(),
+      transition: Transition.zoom,
+    )
   ];
 }
