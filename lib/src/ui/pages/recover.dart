@@ -274,6 +274,7 @@ class Second extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AuthController loginController = Get.find<AuthController>();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -298,7 +299,7 @@ class Second extends StatelessWidget {
               style: TextStyle(fontSize: 16.0, color: Colors.grey),
             ),
             const SizedBox(height: 10.0),
-            TextButton(
+/*             TextButton(
               child: const Text(
                 "Reenviar",
                 style: TextStyle(
@@ -307,7 +308,7 @@ class Second extends StatelessWidget {
                 ),
               ),
               onPressed: () {},
-            ),
+            ), */
             const SizedBox(height: 30.0),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -323,7 +324,7 @@ class Second extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                Get.to(const Third());
+                loginController.verifyCode();
               },
             )
           ],
@@ -338,6 +339,7 @@ class Third extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AuthController loginController = Get.find<AuthController>();
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.only(top: 25),
@@ -373,7 +375,9 @@ class Third extends StatelessWidget {
                       labelText: 'Contraseña',
                     ),
                     obscureText: true,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      loginController.recovePassword.value = value;
+                    },
                     onSaved: (value) {},
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -392,7 +396,9 @@ class Third extends StatelessWidget {
                       labelText: 'Repita Contraseña',
                     ),
                     obscureText: true,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      loginController.replyRecovePassword.value = value;
+                    },
                     onSaved: (value) {},
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -416,9 +422,7 @@ class Third extends StatelessWidget {
                       fontSize: 16.0,
                     ),
                   ),
-                  onPressed: () {
-                    Get.to(const Four());
-                  },
+                  onPressed: () => loginController.changePassword(),
                 )
               ],
             ),
@@ -555,6 +559,8 @@ class _OTPFieldsState extends State<OTPFields> {
 
   @override
   Widget build(BuildContext context) {
+    final AuthController loginController = Get.find<AuthController>();
+
     return Form(
       child: Column(
         children: [
@@ -571,6 +577,7 @@ class _OTPFieldsState extends State<OTPFields> {
                   textAlign: TextAlign.center,
                   decoration: inputDecoration,
                   onChanged: (value) {
+                    loginController.c1.value = value;
                     nextField(value, pin2FN);
                   },
                 ),
@@ -583,7 +590,10 @@ class _OTPFieldsState extends State<OTPFields> {
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: inputDecoration,
-                  onChanged: (value) => nextField(value, pin3FN),
+                  onChanged: (value) {
+                    loginController.c2.value = value;
+                    nextField(value, pin3FN);
+                  },
                 ),
               ),
               SizedBox(
@@ -594,7 +604,10 @@ class _OTPFieldsState extends State<OTPFields> {
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: inputDecoration,
-                  onChanged: (value) => nextField(value, pin4FN),
+                  onChanged: (value) {
+                    loginController.c3.value = value;
+                    nextField(value, pin4FN);
+                  },
                 ),
               ),
               SizedBox(
@@ -606,6 +619,7 @@ class _OTPFieldsState extends State<OTPFields> {
                   textAlign: TextAlign.center,
                   decoration: inputDecoration,
                   onChanged: (value) {
+                    loginController.c4.value = value;
                     if (value.length == 1) {
                       pin4FN!.unfocus();
                     }

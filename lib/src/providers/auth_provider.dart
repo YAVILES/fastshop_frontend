@@ -52,4 +52,28 @@ class AuthProvider {
     }
     return null;
   }
+
+  Future<Map<String, dynamic>?> validateCode(Map<String, String> data) async {
+    try {
+      Response resp = await API.post('/security/verify/validate_code/', data);
+      if (resp.statusCode == 200) {
+        return resp.data;
+      }
+    } on ErrorAPI {
+      rethrow;
+    }
+    return null;
+  }
+
+  Future<Map<String, dynamic>?> changePassword(Map<String, String> data) async {
+    try {
+      Response resp = await API.post('/security/verify/change_password/', data);
+      if (resp.statusCode == 200) {
+        return resp.data;
+      }
+    } on ErrorAPI {
+      rethrow;
+    }
+    return null;
+  }
 }
