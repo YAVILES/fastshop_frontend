@@ -1,7 +1,6 @@
 import 'package:fastshop/src/models/auth_model.dart';
 import 'package:fastshop/src/models/user_model.dart';
 import 'package:fastshop/src/providers/auth_provider.dart';
-import 'package:fastshop/src/ui/pages/recover.dart';
 import 'package:fastshop/src/utils/api.dart';
 import 'package:fastshop/src/utils/snackbar.dart';
 import 'package:fastshop/src/utils/storage.dart';
@@ -31,13 +30,6 @@ class AuthController extends GetxController {
   RxBool loading = false.obs;
   RxBool _backButtonActive = true.obs;
   RxBool showMethod = false.obs;
-  String pk = "";
-  RxString c1 = "".obs;
-  RxString c2 = "".obs;
-  RxString c3 = "".obs;
-  RxString c4 = "".obs;
-  RxString recovePassword = "".obs;
-  RxString replyRecovePassword = "".obs;
 
   RxBool get backButtonActive => _backButtonActive;
 
@@ -117,7 +109,6 @@ class AuthController extends GetxController {
       showMethod.value = true;
       email.value = resp['email'];
       phone.value = resp['phone'] ?? "";
-      pk = resp['pk'];
 
       return resp;
     } else {
@@ -129,55 +120,14 @@ class AuthController extends GetxController {
     Map<String, dynamic>? resp = await loginProvider.sendEmail({
       "field": fieldVerify.value,
       "schema": schema.value,
-      "email": email.value,
-      "pk": pk
+      "email": email.value
     });
     if (resp != null) {
       // print(resp);
-      //codeSecurity.value = resp['code'];
-      Get.to(const Second());
+      codeSecurity.value = resp['code'];
       return resp;
     } else {
       CustomSnackBar.error(message: 'Usuario invalido');
-    }
-  }
-
-  verifyCode() async {
-    final code = c1.value + c2.value + c3.value + c4.value;
-    Map<String, dynamic>? resp = await loginProvider.validateCode({
-      "field": fieldVerify.value,
-      "schema": schema.value,
-      "pk": pk,
-      "code": code
-    });
-    if (resp != null) {
-      if (resp['code'] == '200') {
-        CustomSnackBar.success(message: resp['message']);
-        Get.to(const Third());
-      }
-      if (resp['code'] == '400') {
-        CustomSnackBar.error(message: resp['message']);
-      }
-      return resp;
-    } else {
-      CustomSnackBar.error(message: 'Error');
-    }
-  }
-
-  changePassword() async {
-    Map<String, dynamic>? resp = await loginProvider.changePassword({
-      "field": fieldVerify.value,
-      "schema": schema.value,
-      "pk": pk,
-      "password": recovePassword.value
-    });
-    if (resp != null) {
-      // print(resp);
-      //codeSecurity.value = resp['code'];
-      Get.to(const Four());
-      return resp;
-    } else {
-      CustomSnackBar.error(message: 'Error');
     }
   }
 }
