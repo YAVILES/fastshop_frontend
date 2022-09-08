@@ -8,6 +8,6 @@ class CustomSnackBar {
 
   static success({required String message, String? title}) {
     Get.snackbar(title ?? 'Success', message,
-        backgroundColor: Color.fromARGB(255, 4, 235, 61));
+        backgroundColor: const Color.fromARGB(255, 4, 235, 61));
   }
 }

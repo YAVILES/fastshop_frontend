@@ -2,20 +2,45 @@ import 'package:fastshop/src/controllers/category_controller.dart';
 import 'package:fastshop/src/ui/widgets/progress_indicators/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:file_picker/file_picker.dart';
 
+// ignore: must_be_immutable
 class CategoryEditPage extends StatefulWidget {
-  const CategoryEditPage({Key? key}) : super(key: key);
-
+  CategoryEditPage({Key? key, this.id}) : super(key: key);
+  String? id;
   @override
   State<CategoryEditPage> createState() => _CategoryEditPageState();
 }
 
 class _CategoryEditPageState extends State<CategoryEditPage> {
-  CategoryController categoryController = Get.put(CategoryController());
+  CategoryController categoryController = Get.find<CategoryController>();
 
   @override
   Widget build(BuildContext context) {
+    return widget.id == null
+        ? CategoryFormPage(categoryController: categoryController)
+        : FutureBuilder(
+            future: categoryController.getCategory(widget.id!),
+            builder: (_, AsyncSnapshot<Object?> snapshot) =>
+                snapshot.connectionState == ConnectionState.done
+                    ? CategoryFormPage(categoryController: categoryController)
+                    : const CustomProgressIndicator(),
+          );
+  }
+}
+
+class CategoryFormPage extends StatelessWidget {
+  const CategoryFormPage({
+    Key? key,
+    required this.categoryController,
+  }) : super(key: key);
+
+  final CategoryController categoryController;
+
+  @override
+  Widget build(BuildContext context) {
+    printInfo(
+        info:
+            'info int. code: ${categoryController.category.value?.internalCode}');
     return SingleChildScrollView(
       child: Form(
         key: categoryController.formCategoryKey,
@@ -24,32 +49,26 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
             Stack(
               alignment: AlignmentDirectional.bottomCenter,
               children: [
-                Obx(
-                  () => (categoryController.category.value?.image != null)
-                      ? Image.memory(categoryController.category.value!.image!)
-                      : Image.network(
-                          fit: BoxFit.contain,
-                          alignment: Alignment.center,
-                          categoryController.category.value?.imageDisplay ?? "",
-                          loadingBuilder: (context, child, loadingProgress) =>
-                              Image.asset('images/loading.gif'),
-                          errorBuilder: (context, obj, stackTrace) =>
-                              Image.asset('images/base_image.png'),
-                        ),
+                GetBuilder<CategoryController>(
+                  builder: (controller) {
+                    return (controller.category.value?.image?.bytes != null)
+                        ? Image.memory(controller.category.value!.image!.bytes!)
+                        : Image.network(
+                            fit: BoxFit.contain,
+                            alignment: Alignment.center,
+                            controller.category.value?.imageDisplay ?? "",
+                            loadingBuilder: (context, child, loadingProgress) =>
+                                Image.asset('images/loading.gif'),
+                            errorBuilder: (context, obj, stackTrace) =>
+                                Image.asset('images/base_image.png'),
+                          );
+                  },
                 ),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: FloatingActionButton(
                     onPressed: () async {
-                      FilePickerResult? result =
-                          await FilePicker.platform.pickFiles();
-
-                      if (result != null) {
-                        categoryController.category.value?.image =
-                            result.files.first.bytes;
-                      } else {
-                        // Adviser canceled the picker
-                      }
+                      categoryController.uploadImage();
                     },
                     child: const Icon(Icons.upload),
                   ),
@@ -57,6 +76,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
               ],
             ),
             TextFormField(
+              initialValue: categoryController.category.value?.internalCode,
               decoration: const InputDecoration(
                 hintText: 'Código',
                 labelText: 'Código',
@@ -76,6 +96,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
             ),
             const SizedBox(height: 10),
             TextFormField(
+              initialValue: categoryController.category.value?.description,
               decoration: const InputDecoration(
                 hintText: 'Descripción',
                 labelText: 'Descripción',
@@ -102,6 +123,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
                     )
                   : const CustomProgressIndicator();
             }),
+            const SizedBox(height: 10),
           ],
         ),
       ),

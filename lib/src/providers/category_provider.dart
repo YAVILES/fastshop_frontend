@@ -4,6 +4,7 @@ import 'package:fastshop/src/models/response_list.dart';
 import 'package:fastshop/src/utils/api.dart';
 
 class CategoryProvider {
+  static const baseUrl = '/inventory/category/';
   Future<ResponseData?> getCategoriesPaginated(
       String? url, Map<String, dynamic>? params) async {
     try {
@@ -18,13 +19,44 @@ class CategoryProvider {
     return null;
   }
 
+  Future<CategoryModel?> getCategory(String id) async {
+    try {
+      Response resp = await API.get('$baseUrl$id');
+      if (resp.statusCode == 200) {
+        return CategoryModel.fromMap(resp.data);
+      }
+    } on ErrorAPI {
+      rethrow;
+    }
+    return null;
+  }
+
+  Future<CategoryModel?> exportData(Map<String, dynamic> params) async {
+    try {
+      Response resp = await API.get('${baseUrl}export/', params: params);
+      if (resp.statusCode == 200) {
+        return CategoryModel.fromMap(resp.data);
+      }
+    } on ErrorAPI {
+      rethrow;
+    }
+    return null;
+  }
+
   Future<CategoryModel?> saveCategory(CategoryModel category) async {
     try {
-      Response resp = await API.post(
-        '/inventory/category/',
-        category.toMap(),
-      );
-      if (resp.statusCode == 200) {
+      final mapData = {
+        if (category.image?.bytes != null)
+          'image': MultipartFile.fromBytes(
+            category.image!.bytes!,
+            filename: category.image!.name,
+          ),
+        ...category.toMap(),
+      };
+
+      final formData = FormData.fromMap(mapData);
+      Response resp = await API.post('/inventory/category/', formData);
+      if (resp.statusCode == 200 || resp.statusCode == 201) {
         return CategoryModel.fromMap(resp.data);
       }
     } on ErrorAPI {

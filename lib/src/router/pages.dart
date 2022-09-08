@@ -32,7 +32,11 @@ abstract class AppPages {
             ),
             GetPage(
               name: Routes.categoryEdit,
-              page: () => const CategoryEditPage(),
+              page: () => CategoryEditPage(),
+            ),
+            GetPage(
+              name: '${Routes.categoryEdit}/:id',
+              page: () => CategoryEditPage(id: Get.parameters['id']),
             ),
           ],
         ),

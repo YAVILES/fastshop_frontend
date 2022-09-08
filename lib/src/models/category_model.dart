@@ -3,7 +3,8 @@
 //     final categoryModel = categoryModelFromMap(jsonString);
 
 import 'dart:convert';
-import 'dart:typed_data';
+
+import 'package:file_picker/file_picker.dart';
 
 class CategoryModel {
   CategoryModel(
@@ -20,7 +21,7 @@ class CategoryModel {
   String? description;
   int? status;
   String? statusDisplay;
-  Uint8List? image;
+  PlatformFile? image;
   String? imageDisplay;
 
   factory CategoryModel.fromJson(String str) =>
@@ -34,7 +35,6 @@ class CategoryModel {
         description: json["description"],
         status: json["status"],
         statusDisplay: json["status_display"],
-        image: json["image"],
         imageDisplay: json["image_display"],
       );
 
@@ -44,7 +44,6 @@ class CategoryModel {
         "description": description,
         "status": status,
         "status_display": statusDisplay,
-        "image": image,
         "image_display": imageDisplay,
       };
 }

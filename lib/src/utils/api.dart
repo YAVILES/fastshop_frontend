@@ -37,7 +37,7 @@ class API {
               error.response?.statusCode == 401) {
             if (error.requestOptions.path == '/token/refresh/') {
               return errorHandler.next(error);
-            } else if (error.requestOptions.path != '/token/' ||
+            } else if (error.requestOptions.path != '/token/' &&
                 error.requestOptions.path != '/security/user/current/') {
               try {
                 Response response = await refreshToken();

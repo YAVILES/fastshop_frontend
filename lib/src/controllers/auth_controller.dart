@@ -83,14 +83,18 @@ class AuthController extends GetxController {
           await Storage.setSchema(splitUsername[1]);
           API.configureDio(null);
           formLoginKey.currentState!.save();
-          AuthModel? resp = await loginProvider.login(
-              {"username": splitUsername[0], "password": password.value});
-          if (resp != null) {
-            await Storage.setToken(resp.token, resp.refresh);
-            API.configureDio(null);
-            user = await loginProvider.currentUser();
-            update();
-            Get.offAllNamed(Routes.home);
+          try {
+            AuthModel? resp = await loginProvider.login(
+                {"username": splitUsername[0], "password": password.value});
+            if (resp != null) {
+              await Storage.setToken(resp.token, resp.refresh);
+              API.configureDio(null);
+              user = await loginProvider.currentUser();
+              update();
+              Get.offAllNamed(Routes.home);
+            }
+          } on ErrorAPI catch (e) {
+            CustomSnackBar.error(message: '${e.detail}');
           }
         } else {
           CustomSnackBar.error(message: 'Usuario invalido');
