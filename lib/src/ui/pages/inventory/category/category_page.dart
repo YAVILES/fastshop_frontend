@@ -1,5 +1,4 @@
 import 'package:fastshop/src/components/generic_table/generic_table_responsive.dart';
-import 'package:fastshop/src/controllers/category_controller.dart';
 import 'package:fastshop/src/providers/category_provider.dart';
 import 'package:fastshop/src/providers/utils_provider.dart';
 import 'package:fastshop/src/router/pages.dart';
@@ -66,40 +65,38 @@ class _CategoryPageState extends State<CategoryPage> {
               ),
             ),
           ),
-          GetBuilder<CategoryController>(
-            initState: (_) {},
-            builder: (controller) {
-              return GenericTableResponsive(
-                headers: _headers,
-                onSource: (Map<String, dynamic> params, String? url) {
-                  return UtilsProvider.getListPaginated(params, url ?? baseURL);
-                },
-                filenameExport: 'categorias',
-                onExport: (params) {
-                  return UtilsProvider.export(baseURL);
-                },
-                onImport: (params) async {
-                  FilePickerResult? result =
-                      await FilePicker.platform.pickFiles(
-                    // allowedExtensions: ['jpg'],
-                    allowMultiple: false,
-                  );
+          GenericTableResponsive(
+            headers: _headers,
+            onSource: (Map<String, dynamic> params, String? url) {
+              return UtilsProvider.getListPaginated(params, url ?? baseURL);
+            },
+            filenameExport: 'categorias',
+            onExport: (params) {
+              return UtilsProvider.export(baseURL);
+            },
+            onImport: (params) async {
+              try {
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                  // allowedExtensions: ['jpg'],
+                  allowMultiple: false,
+                );
 
-                  if (result != null) {
-                    final resp =
-                        await UtilsProvider.import(baseURL, result.files.first);
-                    if (resp != null) {
-                      CustomSnackBar.success(message: 'Carga masiva Exitosa');
-                      controller.update();
-                    } else {
-                      CustomSnackBar.error(
-                          message: 'No fue posible cargar la información');
-                    }
+                if (result != null) {
+                  final resp =
+                      await UtilsProvider.import(baseURL, result.files.first);
+                  if (resp != null) {
+                    CustomSnackBar.success(message: 'Carga masiva Exitosa');
                   } else {
-                    // User canceled the picker
+                    CustomSnackBar.error(
+                        message: 'No fue posible cargar la información');
                   }
-                },
-              );
+                } else {
+                  // User canceled the picker
+                }
+              } on FormatException {
+                CustomSnackBar.error(
+                    message: 'El archivo no tiene un formato correcto');
+              }
             },
           ),
         ],

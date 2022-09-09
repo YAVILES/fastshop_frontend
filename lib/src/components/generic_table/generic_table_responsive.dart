@@ -184,6 +184,7 @@ class _GenericTableResponsiveState extends State<GenericTableResponsive> {
                   ),
                   onPressed: () async {
                     await widget.onImport!(widget.params ?? {});
+                    refreshData();
                   },
                 ),
             ],
