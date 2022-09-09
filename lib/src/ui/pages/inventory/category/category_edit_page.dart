@@ -38,9 +38,6 @@ class CategoryFormPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    printInfo(
-        info:
-            'info int. code: ${categoryController.category.value?.internalCode}');
     return SingleChildScrollView(
       child: Form(
         key: categoryController.formCategoryKey,
@@ -52,8 +49,12 @@ class CategoryFormPage extends StatelessWidget {
                 GetBuilder<CategoryController>(
                   builder: (controller) {
                     return (controller.category.value?.image?.bytes != null)
-                        ? Image.memory(controller.category.value!.image!.bytes!)
+                        ? Image.memory(
+                            height: 300,
+                            controller.category.value!.image!.bytes!,
+                          )
                         : Image.network(
+                            height: 300,
                             fit: BoxFit.contain,
                             alignment: Alignment.center,
                             controller.category.value?.imageDisplay ?? "",
@@ -75,6 +76,7 @@ class CategoryFormPage extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: 10),
             TextFormField(
               initialValue: categoryController.category.value?.internalCode,
               decoration: const InputDecoration(
@@ -114,7 +116,7 @@ class CategoryFormPage extends StatelessWidget {
                 return null;
               },
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             Obx(() {
               return categoryController.saving.isFalse
                   ? ElevatedButton(
@@ -123,7 +125,7 @@ class CategoryFormPage extends StatelessWidget {
                     )
                   : const CustomProgressIndicator();
             }),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
           ],
         ),
       ),
