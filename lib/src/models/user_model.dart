@@ -22,6 +22,7 @@ class UserModel {
     this.status,
     this.statusDisplay,
     this.created,
+    this.permissions,
   });
 
   String? id;
@@ -40,6 +41,7 @@ class UserModel {
   int? status;
   String? statusDisplay;
   DateTime? created;
+  dynamic permissions;
 
   factory UserModel.fromMap(Map<String?, dynamic> json) => UserModel(
         id: json["id"],
@@ -57,6 +59,7 @@ class UserModel {
         isSuperuser: json["is_superuser"],
         status: json["status"],
         statusDisplay: json["status_display"],
+        permissions: json["full_permissions"],
         created: DateTime.parse(json["created"]),
       );
 
@@ -76,6 +79,7 @@ class UserModel {
         "is_superuser": isSuperuser,
         "status": status,
         "status_display": statusDisplay,
+        "full_permissions": permissions,
         "created": created?.toIso8601String()
       };
 

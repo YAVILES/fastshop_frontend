@@ -1,8 +1,10 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:fastshop/src/controllers/auth_controller.dart';
-import 'package:fastshop/src/router/pages.dart';
+import 'package:fastshop/src/controllers/navigation_controller.dart';
+import 'package:fastshop/src/utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:collection/collection.dart';
 
 class DashBoardLayout extends StatefulWidget {
   const DashBoardLayout({Key? key, required this.child}) : super(key: key);
@@ -57,27 +59,52 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
           padding: const EdgeInsets.all(8.0),
           child: widget.child,
         ),
-        bottomNavigationBar: ConvexAppBar(
-          items: const [
-            TabItem(icon: Icons.home, title: 'Inicio'),
-            TabItem(icon: Icons.map, title: 'Inventario'),
-            TabItem(icon: Icons.add, title: 'Ventas'),
-            TabItem(icon: Icons.add, title: 'Otro'),
-          ],
-          initialActiveIndex: 0, //optional, default as 0
-          onTap: (int i) {
-            switch (i) {
-              case 0:
-                Get.toNamed(Routes.home);
-                break;
-              case 1:
-                Get.toNamed(Routes.inventory);
-                break;
-              case 2:
-                Get.toNamed(Routes.sales);
-                break;
-              default:
-            }
+        bottomNavigationBar: GetX<NavigationController>(
+          init: NavigationController(),
+          initState: (_) {},
+          builder: (controller) {
+            final modulos = groupBy(
+                controller.permissions.value,
+                (dynamic oj) =>
+                    oj['workflow_display']['module_display']['code']);
+            return ConvexAppBar(
+              top: 0,
+              curveSize: 0,
+              // activeColor: Colors.black,
+              items: [
+                const TabItem(icon: Icons.home, title: 'Home'),
+                ...modulos.keys.map(
+                  (key) => TabItem(
+                      icon: Icons.home,
+                      title: modulos[key]![0]['workflow_display']
+                          ['module_display']['title']),
+                ),
+              ],
+              initialActiveIndex:
+                  controller.activeIndex.value, //optional, default as 0
+              onTap: (int i) {
+                // navigationController.activeIndex.value = i;
+                // navigationController.currentModule.value = modulos[i]
+                if (Get.isBottomSheetOpen == true) Get.back();
+                openBottomSheet(Container(
+                  height: 200,
+                  color: Colors.amber,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Text('Modal BottomSheet'),
+                        ElevatedButton(
+                          child: const Text('Close BottomSheet'),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ],
+                    ),
+                  ),
+                ));
+              },
+            );
           },
         ),
       ),

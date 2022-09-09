@@ -1,3 +1,4 @@
+import 'package:fastshop/src/controllers/navigation_controller.dart';
 import 'package:fastshop/src/models/auth_model.dart';
 import 'package:fastshop/src/models/user_model.dart';
 import 'package:fastshop/src/providers/auth_provider.dart';
@@ -21,6 +22,7 @@ class AuthController extends GetxController {
 
   AuthProvider loginProvider = AuthProvider();
   final GlobalKey<FormState> formLoginKey = GlobalKey<FormState>();
+  NavigationController navigationController = Get.find<NavigationController>();
   RxString username = "".obs;
   RxString password = "".obs;
   RxString fieldVerify = "".obs;
@@ -66,6 +68,7 @@ class AuthController extends GetxController {
     final resp = await loginProvider.currentUser();
     if (resp != null) {
       user = resp;
+      navigationController.permissions.value = resp.permissions;
       return true;
     } else {
       return false;
@@ -90,6 +93,7 @@ class AuthController extends GetxController {
               await Storage.setToken(resp.token, resp.refresh);
               API.configureDio(null);
               user = await loginProvider.currentUser();
+              navigationController.permissions.value = user?.permissions;
               update();
               Get.offAllNamed(Routes.home);
             }
