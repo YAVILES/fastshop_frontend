@@ -58,7 +58,7 @@ class _GenericTableResponsiveState extends State<GenericTableResponsive> {
 
   int currentPage = 1;
   String? searchCurrent;
-
+  TextEditingController searchTextController = TextEditingController(text: "");
   refreshData({String? url}) async {
     setState(() => isLoading = true);
     if (widget.sourceData == null) {
@@ -97,9 +97,10 @@ class _GenericTableResponsiveState extends State<GenericTableResponsive> {
         showSelect: widget.showSelect ?? false,
         reponseScreenSizes: const [ScreenSize.xs, ScreenSize.sm],
         actions: [
-          if (isSearch && widget.showSearch != false)
+          if (widget.showSearch != false)
             Expanded(
               child: TextField(
+                controller: searchTextController,
                 decoration: InputDecoration(
                   hintText: 'Buscar',
                   prefixIcon: IconButton(
@@ -108,6 +109,8 @@ class _GenericTableResponsiveState extends State<GenericTableResponsive> {
                       setState(
                         () {
                           widget.params?.remove("search");
+                          searchTextController.text = "";
+                          searchCurrent = "";
                           isSearch = false;
                           refreshData();
                         },
@@ -132,69 +135,59 @@ class _GenericTableResponsiveState extends State<GenericTableResponsive> {
                 },
               ),
             ),
-          if (!isSearch)
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  if (widget.showSearch != false) ...[
-                    IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () {
-                        setState(() {
-                          isSearch = true;
-                        });
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.refresh),
-                      onPressed: () {
-                        refreshData();
-                      },
-                    )
-                  ],
-                  if (widget.onExport != null)
-                    IconButton(
-                      icon: const Icon(Icons.download),
-                      onPressed: () async {
-                        if (!kIsWeb) {
-                          if (Platform.isIOS ||
-                              Platform.isAndroid ||
-                              Platform.isMacOS) {
-                            bool status = await Permission.storage.isGranted;
+          const SizedBox(width: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              if (widget.showSearch == false) ...[
+                IconButton(
+                  icon: const Icon(Icons.refresh),
+                  onPressed: () {
+                    refreshData();
+                  },
+                )
+              ],
+              if (widget.onExport != null)
+                IconButton(
+                  icon: const Icon(Icons.download),
+                  onPressed: () async {
+                    if (!kIsWeb) {
+                      if (Platform.isIOS ||
+                          Platform.isAndroid ||
+                          Platform.isMacOS) {
+                        bool status = await Permission.storage.isGranted;
 
-                            if (!status) await Permission.storage.request();
-                          }
-                        }
-                        Uint8List? data =
-                            await widget.onExport!(widget.params ?? {});
-                        if (data != null) {
-                          MimeType type = MimeType.MICROSOFTEXCEL;
-                          String path = await FileSaver.instance.saveFile(
-                              widget.filenameExport ?? "", data, "xlsx",
-                              mimeType: type);
-                          if (kDebugMode) {
-                            print(path);
-                          }
-                        } else {
-                          CustomSnackBar.error(
-                            message: 'No se pudo descargar el excel',
-                          );
-                        }
-                      },
-                    ),
-                  if (widget.onImport != null)
-                    IconButton(
-                      icon: const Icon(
-                        Icons.upload,
-                      ),
-                      onPressed: () async {
-                        await widget.onImport!(widget.params ?? {});
-                      },
-                    ),
-                ],
-              ),
-            )
+                        if (!status) await Permission.storage.request();
+                      }
+                    }
+                    Uint8List? data =
+                        await widget.onExport!(widget.params ?? {});
+                    if (data != null) {
+                      MimeType type = MimeType.MICROSOFTEXCEL;
+                      String path = await FileSaver.instance.saveFile(
+                          widget.filenameExport ?? "", data, "xlsx",
+                          mimeType: type);
+                      if (kDebugMode) {
+                        print(path);
+                      }
+                    } else {
+                      CustomSnackBar.error(
+                        message: 'No se pudo descargar el excel',
+                      );
+                    }
+                  },
+                ),
+              if (widget.onImport != null)
+                IconButton(
+                  icon: const Icon(
+                    Icons.upload,
+                  ),
+                  onPressed: () async {
+                    await widget.onImport!(widget.params ?? {});
+                  },
+                ),
+            ],
+          )
         ],
         headers: widget.headers,
         source: widget.source,

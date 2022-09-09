@@ -74,7 +74,6 @@ class _CategoryPageState extends State<CategoryPage> {
                 onSource: (Map<String, dynamic> params, String? url) {
                   return UtilsProvider.getListPaginated(params, url ?? baseURL);
                 },
-                params: const {},
                 filenameExport: 'categorias',
                 onExport: (params) {
                   return UtilsProvider.export(baseURL);
