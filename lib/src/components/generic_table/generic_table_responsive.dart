@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:fastshop/src/models/response_list.dart';
 import 'package:fastshop/src/utils/snackbar.dart';
 import 'package:file_saver/file_saver.dart';
