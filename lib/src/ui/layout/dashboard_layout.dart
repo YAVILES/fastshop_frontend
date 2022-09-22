@@ -90,7 +90,7 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
                   // navigationController.currentModule.value = modulos[i]
                   openBottomSheet(Card(
                     elevation: 9,
-                    color: Colors.white,
+                    color: Color.fromARGB(255, 94, 177, 235),
                     child: Wrap(
                       spacing: 10,
                       runSpacing: 10,
@@ -108,9 +108,9 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
                                 child: Center(
                                   child: Column(
                                     children: [
-                                      Icon(
-                                        iconDataMenuWorkflow(
-                                            m["workflow_display"]["icon"]),
+                                      Image.asset(
+                                        m["workflow_display"]["icon"],
+                                        fit: BoxFit.contain,
                                       ),
                                       Text(m["workflow_display"]['title']),
                                     ],
