@@ -83,26 +83,49 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
               initialActiveIndex:
                   controller.activeIndex.value, //optional, default as 0
               onTap: (int i) {
-                // navigationController.activeIndex.value = i;
-                // navigationController.currentModule.value = modulos[i]
                 if (Get.isBottomSheetOpen == true) Get.back();
-                openBottomSheet(Container(
-                  height: 200,
-                  color: Colors.amber,
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        const Text('Opcines'),
-                        ElevatedButton(
-                          child: const Text('Close BottomSheet'),
-                          onPressed: () => Navigator.pop(context),
+                if (i > 0 && controller.activeIndex.value != i) {
+                  final key = modulos.keys.toList()[i - 1];
+                  controller.activeIndex.value = i;
+                  // navigationController.currentModule.value = modulos[i]
+                  openBottomSheet(Card(
+                    elevation: 9,
+                    color: Colors.white,
+                    child: Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      alignment: WrapAlignment.spaceAround,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        ...modulos[key]!.map(
+                          (m) => GestureDetector(
+                            onTap: () =>
+                                Get.toNamed(m["workflow_display"]["url"]),
+                            child: Card(
+                              elevation: 0,
+                              child: SizedBox(
+                                width: 80,
+                                child: Center(
+                                  child: Column(
+                                    children: [
+                                      Icon(
+                                        iconDataMenuWorkflow(
+                                            m["workflow_display"]["icon"]),
+                                      ),
+                                      Text(m["workflow_display"]['title']),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ));
+                  ));
+                } else {
+                  controller.activeIndex.value = 0;
+                }
               },
             );
           },
