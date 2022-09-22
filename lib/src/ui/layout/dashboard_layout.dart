@@ -84,13 +84,10 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
               initialActiveIndex:
                   controller.activeIndex.value, //optional, default as 0
               onTap: (int i) {
-                print('isBottomSheetOpen: ${Get.isBottomSheetOpen}');
                 if (Get.isBottomSheetOpen == true) {
                   Get.back();
                   return;
                 }
-                print('pre i: $i');
-                print('pre index: ${controller.activeIndex.value}');
                 if (i > 0) {
                   final key = modulos.keys.toList()[i - 1];
                   controller.activeIndex.value = i;
@@ -136,8 +133,6 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
                   Get.toNamed(Routes.home);
                   controller.activeIndex.value = 0;
                 }
-                print('post i: $i');
-                print('post index: ${controller.activeIndex.value}');
               },
             );
           },
