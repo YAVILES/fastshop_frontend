@@ -1,5 +1,6 @@
 import 'package:fastshop/src/app.dart';
 import 'package:fastshop/src/controllers/auth_controller.dart';
+import 'package:fastshop/src/controllers/brand_controller.dart';
 import 'package:fastshop/src/controllers/category_controller.dart';
 import 'package:fastshop/src/controllers/navigation_controller.dart';
 import 'package:fastshop/src/utils/storage.dart';
@@ -12,5 +13,7 @@ void main() async {
   Get.lazyPut(() => NavigationController());
   Get.lazyPut(() => AuthController());
   Get.lazyPut(() => CategoryController());
+  Get.lazyPut(() => BrandController());
+
   runApp(const MyApp());
 }

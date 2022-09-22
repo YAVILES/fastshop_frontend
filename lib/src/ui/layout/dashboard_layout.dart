@@ -94,7 +94,7 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        const Text('Modal BottomSheet'),
+                        const Text('Opcines'),
                         ElevatedButton(
                           child: const Text('Close BottomSheet'),
                           onPressed: () => Navigator.pop(context),
