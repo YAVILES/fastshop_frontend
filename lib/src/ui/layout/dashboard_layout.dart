@@ -1,6 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:fastshop/src/controllers/auth_controller.dart';
 import 'package:fastshop/src/controllers/navigation_controller.dart';
+import 'package:fastshop/src/router/pages.dart';
 import 'package:fastshop/src/utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -83,8 +84,14 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
               initialActiveIndex:
                   controller.activeIndex.value, //optional, default as 0
               onTap: (int i) {
-                if (Get.isBottomSheetOpen == true) Get.back();
-                if (i > 0 && controller.activeIndex.value != i) {
+                print('isBottomSheetOpen: ${Get.isBottomSheetOpen}');
+                if (Get.isBottomSheetOpen == true) {
+                  Get.back();
+                  return;
+                }
+                print('pre i: $i');
+                print('pre index: ${controller.activeIndex.value}');
+                if (i > 0) {
                   final key = modulos.keys.toList()[i - 1];
                   controller.activeIndex.value = i;
                   // navigationController.currentModule.value = modulos[i]
@@ -99,8 +106,10 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
                       children: [
                         ...modulos[key]!.map(
                           (m) => GestureDetector(
-                            onTap: () =>
-                                Get.toNamed(m["workflow_display"]["url"]),
+                            onTap: () {
+                              Get.back();
+                              Get.toNamed(m["workflow_display"]["url"]);
+                            },
                             child: Card(
                               elevation: 0,
                               child: SizedBox(
@@ -124,8 +133,11 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
                     ),
                   ));
                 } else {
+                  Get.toNamed(Routes.home);
                   controller.activeIndex.value = 0;
                 }
+                print('post i: $i');
+                print('post index: ${controller.activeIndex.value}');
               },
             );
           },
