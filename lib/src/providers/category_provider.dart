@@ -55,7 +55,12 @@ class CategoryProvider {
       };
 
       final formData = FormData.fromMap(mapData);
-      Response resp = await API.post('/inventory/category/', formData);
+      Response resp;
+      if (category.id == null) {
+        resp = await API.post('/inventory/category/', formData);
+      } else {
+        resp = await API.put('/inventory/category/${category.id}/', formData);
+      }
       if (resp.statusCode == 200 || resp.statusCode == 201) {
         return CategoryModel.fromMap(resp.data);
       }

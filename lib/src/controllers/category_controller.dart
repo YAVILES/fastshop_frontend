@@ -18,6 +18,7 @@ class CategoryController extends GetxController {
     if (formCategoryKey.currentState!.validate()) {
       final resp = await categoryProvider.saveCategory(category.value!);
       if (resp != null) {
+        category.value = CategoryModel();
         Get.toNamed('${Routes.inventory}${Routes.category}');
         update();
       }
