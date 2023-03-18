@@ -5,20 +5,22 @@
 import 'dart:convert';
 
 class AuthModel {
-  String token;
-  String refresh;
+  String accessToken;
+  String refreshToken;
 
   AuthModel({
-    required this.token,
-    required this.refresh,
+    required this.accessToken,
+    required this.refreshToken,
   });
 
   Map<String, dynamic> toMap() {
-    return {'token': token, 'refresh': refresh};
+    return {'accessToken': accessToken, 'refreshToken': refreshToken};
   }
 
   factory AuthModel.fromMap(Map<String, dynamic> map) {
-    return AuthModel(token: map['token'] ?? '', refresh: map['refresh'] ?? '');
+    return AuthModel(
+        accessToken: map['accessToken'] ?? '',
+        refreshToken: map['refreshToken'] ?? '');
   }
 
   String toJson() => json.encode(toMap());

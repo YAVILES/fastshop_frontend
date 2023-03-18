@@ -11,4 +11,6 @@ abstract class Routes {
   static const categoryEdit = '/category_edit';
 
   static const sales = '/sales';
+
+  static const configuration = '/configuration';
 }

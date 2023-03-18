@@ -6,16 +6,16 @@ import 'package:flutter/foundation.dart';
 
 class API {
   // Development
-  static const String baseURL = "http://127.0.0.1:8000/api";
+  static const String baseURL = "http://194.163.161.64:8000/api/v1";
 
   // Production
-  // static const String baseURL = "https://api-dev.segurosrc871.com/api";
+  // static const String baseURL = "https://194.163.161.64:8000/api/v1";
   static final Dio _dio = Dio();
 
   static void configureDio(context) {
     _dio.options.baseUrl = baseURL;
     _dio.options.headers = {
-      'X-Dts-Schema': '${Storage.getSchema()}',
+      'client': '${Storage.getSchema()}',
       'Authorization': 'Bearer ${Storage.getToken()}',
       'accept': '*/*',
     };

@@ -1,4 +1,5 @@
 import 'package:fastshop/src/middlewares/auth_guard.dart';
+import 'package:fastshop/src/ui/pages/configuration/configuration_page.dart';
 import 'package:fastshop/src/ui/pages/home_page.dart';
 import 'package:fastshop/src/ui/pages/inventory/category/category_edit_page.dart';
 import 'package:fastshop/src/ui/pages/inventory/category/category_page.dart';
@@ -7,6 +8,7 @@ import 'package:fastshop/src/ui/pages/login_page.dart';
 import 'package:fastshop/src/ui/pages/recover.dart';
 import 'package:fastshop/src/ui/widgets/splash_view.dart';
 import 'package:get/get.dart';
+
 part './routes.dart';
 
 abstract class AppPages {
@@ -39,6 +41,10 @@ abstract class AppPages {
         GetPage(
           name: Routes.sales,
           page: () => const MyHomePage(title: "Ventas"),
+        ),
+        GetPage(
+          name: Routes.configuration,
+          page: () => const ConfigurationPage(),
         ),
       ],
     ),

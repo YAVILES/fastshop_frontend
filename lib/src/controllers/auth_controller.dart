@@ -5,6 +5,7 @@ import 'package:fastshop/src/ui/pages/recover.dart';
 import 'package:fastshop/src/utils/api.dart';
 import 'package:fastshop/src/utils/snackbar.dart';
 import 'package:fastshop/src/utils/storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -62,14 +63,15 @@ class AuthController extends GetxController {
     if (token == null) {
       return false;
     }
+    return true;
     // loginProvider.onInit();
-    final resp = await loginProvider.currentUser();
+    /*   final resp = await loginProvider.currentUser();
     if (resp != null) {
       user = resp;
       return true;
     } else {
       return false;
-    }
+    } */
   }
 
   Future<void> doLogin() async {
@@ -83,12 +85,15 @@ class AuthController extends GetxController {
           await Storage.setSchema(splitUsername[1]);
           API.configureDio(null);
           formLoginKey.currentState!.save();
-          AuthModel? resp = await loginProvider.login(
-              {"username": splitUsername[0], "password": password.value});
+          var data = {"email": splitUsername[0], "password": password.value};
+          AuthModel? resp = await loginProvider.login(data);
+          if (kDebugMode) {
+            print(resp);
+          }
           if (resp != null) {
-            await Storage.setToken(resp.token, resp.refresh);
+            await Storage.setToken(resp.accessToken, resp.refreshToken);
             API.configureDio(null);
-            user = await loginProvider.currentUser();
+            // user = await loginProvider.currentUser();
             update();
             Get.offAllNamed(Routes.home);
           }

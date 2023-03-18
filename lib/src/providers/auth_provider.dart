@@ -6,7 +6,7 @@ import 'package:fastshop/src/utils/api.dart';
 class AuthProvider {
   Future<AuthModel?> login(Map<String, String> data) async {
     try {
-      Response resp = await API.post('/token/', data);
+      Response resp = await API.post('/users/login', data);
       if (resp.statusCode == 200) {
         return AuthModel.fromMap(resp.data);
       }

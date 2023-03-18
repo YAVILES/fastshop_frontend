@@ -61,8 +61,8 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
           items: const [
             TabItem(icon: Icons.home, title: 'Inicio'),
             TabItem(icon: Icons.map, title: 'Inventario'),
-            TabItem(icon: Icons.add, title: 'Ventas'),
-            TabItem(icon: Icons.add, title: 'Otro'),
+            TabItem(icon: Icons.account_balance, title: 'Cuentas'),
+            TabItem(icon: Icons.settings, title: 'Configuración'),
           ],
           initialActiveIndex: 0, //optional, default as 0
           onTap: (int i) {
@@ -75,6 +75,9 @@ class _DashBoardLayoutState extends State<DashBoardLayout> {
                 break;
               case 2:
                 Get.toNamed(Routes.sales);
+                break;
+              case 3:
+                Get.toNamed(Routes.configuration);
                 break;
               default:
             }
